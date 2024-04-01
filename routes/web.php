@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::view('/cms','system/auth');
+Route::post('/cms/login', [AuthController::class, 'login']);
+Route::get('/cms/logout', [AuthController::class, 'logout']);
+Route::get('/cms/dashboard', [DashboardController::class, 'index'])->middleware('admin');
 
-Route::get('/admin', function () {
-    return view('system/auth');
-});
+Route::get('/cms/edit/{id}', 'AdminController@editPage')->where('id','[0-9]+');
+
+
+
 
 
 
 Route::get('/', function () {
     return view('views/home');
 });
+Route::get('/{lang}/{link}', 'PageController@showPage');
+

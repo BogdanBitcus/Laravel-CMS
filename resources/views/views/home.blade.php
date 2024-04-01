@@ -9,9 +9,11 @@
     </head>
     <body class="antialiased">
 
-    HOME
-    <br>
-    <br>
-    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+        <br>
+        HOME
+        <br>
+        <br>
+        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+
     </body>
 </html>

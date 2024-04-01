@@ -3,26 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Enter to ADMINZONE</title>
+    <link rel="stylesheet" href="/css/cms.css">
+    <title>Log In to LaravelCMS</title>
 
 </head>
-<body style='background:url("/img/cms/body_bg.jpg") repeat-x 0px 0px;padding:0px;margin:0px;' onLoad='focuuss();'>
-<form method=POST name='_auth' action="">
+<body class='auth_body' onLoad='focuuss();'>
+<form method=POST name='_auth' action="{{ url('/cms/login') }}">
     @csrf
-    <div style='width:300px;margin:200px auto 0 auto;'>
-        <div style='margin:0px 0px 10px 0px;'><input type='text' value='' name='_email' id="_email" placeholder="{{ __('Email') }}" onclick="this.focus();" style='width:100%;border:1px solid #808080;'></div>
-        <div style='margin:0px 0px 10px 0px;'><input type='password' value='' name='_password' id="_password" placeholder="{{ __('Password') }}" style='width:100%;border:1px solid #808080;'></div>
-        <div style='margin:0px 0px 10px 0px;'><input type='submit' style='width:100%;' value='{{ __('Enter') }}'></div>
-        {{--<? if($_auth_error==1){ ?><p style='color:red;'>Не правильный пароль!</p><?}?>--}}
+    <div class='auth_div1'>
+        <div class='auth_div2'><input type='text' value='' name='email' id="email" placeholder="{{ __('Email') }}" onclick="this.focus();" class='auth_input1'></div>
+        <div class='auth_div2'><input type='password' value='' name='password' id="password" placeholder="{{ __('Password') }}" class='auth_input1'></div>
+        <div class='auth_div2'><input type='submit' class='auth_input2' value='{{ __('Enter') }}'></div>
+
+        @if (session('error'))
+            <p style='color:red;' id="js_auth_error">
+                {{ session('error') }}
+            </p>
+        @endif
+
     </div>
 </form>
 
-<script>
-    function focuuss()
-    {
-        document.getElementById('_password').focus();
+<script type="text/javascript">
+    function focuuss() {
+        document.getElementById('email').focus();
     }
+    setTimeout(function(){
+        var js_auth_error = document.getElementById('js_auth_error');
+        if(js_auth_error){
+            js_auth_error.style.display = 'none';
+        }
+    },5000);
 </script>
 
 </body>
