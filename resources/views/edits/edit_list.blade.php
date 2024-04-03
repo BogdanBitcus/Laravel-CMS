@@ -14,7 +14,7 @@
                     <div class="tt">LaravelCMS</div>
                 </div>
                 <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
+                    <div style='text-align:right;'>Hello, <b>{{$user->name}}</b></div>
                     <a href="/" target="_blank" class="site">Public View</a>
                     <a href="/cms/logout" class="exit">Log Out</a>
                 </div>
@@ -31,7 +31,7 @@
             </div>-->
 
             <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Modules</th></tr>
+                <tr><th>Модулі</th></tr>
                 <tr><td><a href="/cms/edit/1">Dashboard</a></td></tr>
                 <tr><td><a href="/_s/types.php">Структура</a></td></tr>
                 <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
@@ -48,14 +48,14 @@
                 <div class="clear"></div>
                 <br>
 
-                <form action="{{ url('/cms/save/'.$page->id) }}" method="post">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="id" value="1">
+                <form name="admingu" action="/_s/s_list.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="relocate" value="<?=$_SERVER['REQUEST_URI']?>">
+                    <input type="hidden" name="table" value="pages">
+                    <input type="hidden" name="id" value="111111">
                     <input type="hidden" name="lang" value="en">
 
                     Title:<br />
-                    <textarea name="name_s" class="bigtxt">@if (!empty($page->name)){{ json_decode($page->name)->en ?? '' }}@endif</textarea>
+                    <input name="name_en_s" value="{{ json_decode($page->name) }}" class="bigtxt">
 
 
 
@@ -63,8 +63,8 @@
 
 
                     <div style="padding: 10px 0;">
-                        <div id="infoblock_a" class="display" onclick="showblock('infoblock');">Edit content</div>
-                        <div id="seoblock_a" class="display" onclick="showblock('seoblock');">Edit SEO</div>
+                        <div id="infoblock_a" class="display" onclick="showblock('infoblock');">Редактировать текстовую часть</div>
+                        <div id="seoblock_a" class="display" onclick="showblock('seoblock');">Редактировать SEO-блок</div>
                         <div class="clear"></div>
                     </div>
                     <div id="infoblock" style="display:none;">
@@ -80,15 +80,15 @@
                         <table cellspacing="0" cellpadding="0" border="0" class="table">
                             <tr>
                                 <td>Title:</td>
-                                <td><textarea class="bigtxt" name="title_s">seo title</textarea></td>
+                                <td><input name="title_en_s" value="seo title" class="smtxt"></td>
                             </tr>
                             <tr>
-                                <td>Description:</td>
-                                <td><textarea class="bigtxt" name="description_s">seo description</textarea></td>
+                                <td>Описание:</td>
+                                <td><textarea cols='50' rows='5' name="des_en_s">seo description</textarea></td>
                             </tr>
                             <tr>
-                                <td>Keywords:</td>
-                                <td><textarea class="bigtxt" name="keywords_s">seo keywords</textarea></td>
+                                <td>Ключевые&nbsp;слова:</td>
+                                <td><textarea cols='50' rows='5' name="key_en_s">seo keywords</textarea></td>
                             </tr>
                         </table>
                     </div>

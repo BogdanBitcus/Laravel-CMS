@@ -3,16 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/cms.css">
+    <link rel="stylesheet" href="/css/cms/cms.css">
     <title>Log In to LaravelCMS</title>
-
 </head>
-<body class='auth_body' onLoad='focuuss();'>
+<body class='auth_body'>
 <form method=POST name='_auth' action="{{ url('/cms/login') }}">
     @csrf
     <div class='auth_div1'>
-        <div class='auth_div2'><input type='text' value='' name='email' id="email" placeholder="{{ __('Email') }}" onclick="this.focus();" class='auth_input1'></div>
-        <div class='auth_div2'><input type='password' value='' name='password' id="password" placeholder="{{ __('Password') }}" class='auth_input1'></div>
+        <div class='auth_div2'><input type='text' value='' name='email' id="auth_email" placeholder="{{ __('Email') }}" onclick="this.focus();" class='auth_input1'></div>
+        <div class='auth_div2'><input type='password' value='' name='password' id="auth_password" placeholder="{{ __('Password') }}" class='auth_input1'></div>
         <div class='auth_div2'><input type='submit' class='auth_input2' value='{{ __('Enter') }}'></div>
 
         @if (session('error'))
@@ -23,18 +22,6 @@
 
     </div>
 </form>
-
-<script type="text/javascript">
-    function focuuss() {
-        document.getElementById('email').focus();
-    }
-    setTimeout(function(){
-        var js_auth_error = document.getElementById('js_auth_error');
-        if(js_auth_error){
-            js_auth_error.style.display = 'none';
-        }
-    },5000);
-</script>
-
+<script type="text/javascript" src="/js/cms/cms.js"></script>
 </body>
 </html>
