@@ -20,6 +20,8 @@ Route::view('/cms','system/auth');
 Route::post('/cms/login', [AuthController::class, 'login']);
 Route::get('/cms/logout', [AuthController::class, 'logout']);
 Route::get('/cms/dashboard', [DashboardController::class, 'index'])->middleware('admin');
+Route::post('/cms/dashboard/addpage', [DashboardController::class, 'addpage'])->middleware('admin');
+Route::delete('/cms/delete/{id}', [DashboardController::class, 'deletepage'])->middleware('admin');
 Route::get('/cms/edit/{id}', [AdminController::class, 'index'])->where('id','[0-9]+')->middleware('admin');
 
 

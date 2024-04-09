@@ -24,15 +24,15 @@
     </tr>
     <tr>
         <td class="menu" valign="top" align="center">
-            <!--<div class="lang">
-                <a href="/cms/edit/1/" class="a">en</a>
-                <a href="/cms/edit/1/ua" class="n">ua</a>
+            <div class="lang">
+                <a href="/cms/edit/{{ $page->id }}" class="a">en</a>
+                <a href="/cms/edit/{{ $page->id }}/ua" class="n">ua</a>
                 <div class="clear"></div>
-            </div>-->
+            </div>
 
             <table cellspacing="0" cellpadding="0" class="addmod">
                 <tr><th>Modules</th></tr>
-                <tr><td><a href="/cms/edit/1">Dashboard</a></td></tr>
+                <tr><td><a href="/cms/dashboard" class="{{ $page->id==1 ? 'bold' : '' }}">Dashboard</a></td></tr>
                 <tr><td><a href="/_s/types.php">Структура</a></td></tr>
                 <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
                 <tr><td><a href="/_s/l_adm.php">Користувачі CMS</a></td></tr>
@@ -48,121 +48,142 @@
                 <div class="clear"></div>
                 <br>
 
+                <form action="{{ url('/cms/dashboard/addpage') }}" method="post">
+                    @csrf
+                    <input type="submit" class="save"  value="Add section/page">
+                </form>
+
                 <form action="{{ url('/cms/save/'.$page->id) }}" method="post">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="1">
                     <input type="hidden" name="lang" value="en">
 
-                    Title:<br />
-                    <textarea name="name_s" class="bigtxt">@if (!empty($page->name)){{ json_decode($page->name)->en ?? '' }}@endif</textarea>
 
 
 
 
-
-
-                    <div style="padding: 10px 0;">
-                        <div id="infoblock_a" class="display" onclick="showblock('infoblock');">Edit content</div>
-                        <div id="seoblock_a" class="display" onclick="showblock('seoblock');">Edit SEO</div>
-                        <div class="clear"></div>
-                    </div>
-                    <div id="infoblock" style="display:none;">
-                        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="table">
-                            <tr>
-                                <td>
-                                    <textarea cols='50' rows='5' id="html_en_s" name="html_en_s">text content</textarea>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div id="seoblock" style="display:none;">
-                        <table cellspacing="0" cellpadding="0" border="0" class="table">
-                            <tr>
-                                <td>Title:</td>
-                                <td><textarea class="bigtxt" name="title_s">seo title</textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Description:</td>
-                                <td><textarea class="bigtxt" name="description_s">seo description</textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Keywords:</td>
-                                <td><textarea class="bigtxt" name="keywords_s">seo keywords</textarea></td>
-                            </tr>
-                        </table>
-                    </div>
-
-
-                    <script type="text/javascript">ch=1</script>
 
                     <br>
                     <table cellspacing="0" cellpadding="0" class="list">
                         <tr>
-                            <th>show</th>
-                            <th>позиция</th>
+                            <th>Show</th>
+                            <th>Position</th>
                             <th>URL</th>
-                            <th>название</th>
+                            <th>Name</th>
                             <th>&nbsp;</th>
-                            <th>Тип</th>
+                            <th>Template</th>
                         </tr>
+
                         <tr>
-                            <td><input class="enable_all" type="checkbox" value="1" name="enabl"></td>
-                            <td colspan="100">
-                                <a href="/_s/n_list_item.php?table=pages&amp;pos=1&amp;parent=0&amp;relocate=<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return go(this.href)"><img src="/img/cms/doc-plus.gif" style="margin: 0 0 -2px;" alt="Добавить" > Добавить в начало списка</a>
-                            </td>
-                        </tr>
-
-
-                        <tr class='tr_hide'>
-                            <td valign='middle'>
-                                <input type="hidden" name="enable_en_s_1" value="0" >
-                                <input type="checkbox" class="img" name="enable_en_s_1" value="1" checked="checked">
-                            </td>
-                            <td nowrap>
-                                <input name="position[1]" value="10" class="small" onchange="ch=1">
-                                <input style="margin: 0 0 -7px;" type="image" class="img" src="/img/cms/top.gif" title="вверх" onclick="move(1,-11)">
-                                <input style="margin: 0 0 -7px;" type="image" class="img" src="/img/cms/bottom.gif" title="вниз" onclick="move(1,+11)">
+                            <td>
+                                <input type="checkbox" name="show_s_{{ $page->id }}" value="1" {{ $page->show == 1 ? 'checked="checked"' : '' }}>
                             </td>
                             <td>
-                                <input name="url_s_1" class="medium" value="/url/" onchange="ch=1;document.forms.admingu.addr_s_1.value='';" onblur="val_1=document.forms.admingu.url_s_1.value;val2_1 = val_1.toLowerCase();document.forms.admingu.url_s_1.value=val2_1;   ch=1;document.forms.admingu.addr_s_1.value='';">
-                                <input name="addr_s_1" type="hidden" value="url">
+                                <input name="position[{{ $page->id }}]" value="{{ $page->position }}" class="small">
+                                <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $page->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $page->id }},+11)">
                             </td>
                             <td>
-                                <input name="name_en_s_1" class="big" value="name page id" >
+                                <input name="url_s_{{ $page->id }}" class="medium" value="/" disabled="disabled" onblur="check_url(this);">
                             </td>
-                            <td nowrap>
-                                <a href="/en/edit/1/?relocate=/en/edit/1/" onclick="return go(this.href)"><img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="редактировать" ></a>
-                                <a href="/_s/del.php?id=1&amp;table=pages&amp;relocate=<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return confirm('Удалить элемент? ВНИМАНИЕ!!! Удалятся все дочерние/вложеные элементы!') ? go(this.href) : false"><img style="margin: 0 0 -3px;" src="/img/cms/del.gif" alt="удалить"></a>
+                            <td>
+                                <textarea name="name_s_{{ $page->id }}" class="big">{{ $page->name }}</textarea>
                             </td>
-                            <td nowrap='nowrap'>
-                                <select class="select" name="type_s_1" id="type_1" onchange="ch=1;" disabled >
+                            <td>
+                                <a href="/cms/edit/{{ $page->id }}">
+                                    <img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="Edit" >
+                                </a>
+                            </td>
+                            <td>
+                                <select class="select" name="type_s__{{ $page->id }}" id="type_{{ $page->id }}" disabled="disabled" >
                                     <option value="1" selected="selected">type name</option>
                                 </select>
 
-                                <a href="#" id="type_enable_1" onclick="document.getElementById('type_1').disabled=false;document.getElementById('type_enable_1').style.display='none';return false;"><img style="margin: 0 0 -3px;" src="/img/cms/block.gif" border="0" alt="Изменить тип шаблона страницы" class="cursor"></a>
+                                <a href="javascript:void(0);" id="type_enable_{{ $page->id }}" onclick="unlock_page_type({{ $page->id }});">
+                                    <img style="margin: 0 0 -3px;" src="/img/cms/block.gif" alt="Change page type" class="cursor">
+                                </a>
                             </td>
                         </tr>
 
 
 
+                        @foreach ($list as $item)
                         <tr>
-                            <td>&nbsp;</td>
-                            <td colspan="100">
+                            <td>
+                                <input type="checkbox" name="show_s_{{ $item->id }}" value="1" {{ $item->show == 1 ? 'checked="checked"' : '' }}>
+                            </td>
+                            <td>
+                                <input name="position[{{ $item->id }}]" value="{{ $item->position }}" class="small">
+                                <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $item->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $item->id }},+11)">
+                            </td>
+                            <td>
+                                <input name="url_s_{{ $item->id }}" class="medium" value="{{ $item->url ? $item->url : $item->id }}" onblur="check_url(this);">
+                            </td>
+                            <td>
+                                <textarea name="name_s_{{ $item->id }}" class="big">{{ $item->name }}</textarea>
+                            </td>
+                            <td>
+                                <a href="/cms/edit/{{ $item->id }}">
+                                    <img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="Edit" title="Edit" >
+                                </a>
+                                <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" class="img js_delete_page" data-id="{{ $item->id }}" alt="Delete" title="Delete">
+                            </td>
+                            <td>
+                                <select class="select" name="type_s__{{ $item->id }}" id="type_{{ $item->id }}" disabled="disabled" >
+                                    <option value="1" selected="selected">type name</option>
+                                </select>
 
-                                <a href="/_s/n_list_item.php?table=pages&amp;pos=999999&amp;parent=0&amp;relocate=<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return go(this.href)"><img src="/img/cms/doc-plus.gif" style="margin: 0 0 -2px;" alt='Add' > Add to the end</a>
-
+                                <a href="javascript:void(0);" id="type_enable_{{ $item->id }}" onclick="unlock_page_type({{ $item->id }});">
+                                    <img style="margin: 0 0 -3px;" src="/img/cms/block.gif" alt="Change page type" class="cursor">
+                                </a>
                             </td>
                         </tr>
+                        @endforeach
+
+
+
                     </table>
 
-                    <br><input type="submit" class="save" value="Save">
+                    <br>
+                    <input type="submit" class="save" value="Save">
 
                 </form>
             </div>
         </td>
     </tr>
 </table>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteLinks = document.querySelectorAll('.js_delete_page');
+        deleteLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                //event.preventDefault(); // Відміняємо стандартну дію посилання
+                var itemId = link.getAttribute('data-id');
+                if (confirm('Delete item? WARNING! All child/nested elements will be removed!')) {
+                    fetch('/cms/delete/' + itemId, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Failed to delete page');
+                        }
+                    }).then(data => {
+                        alert(data.message);
+                        window.location.reload();
+                    }).catch(function(error) {
+                        console.error('Error deleting item:', error);
+                    });
+                }
+            });
+        });
+    });
+</script>
 <script type="text/javascript" src="/js/cms/cms.js"></script>
 </body>
 </html>

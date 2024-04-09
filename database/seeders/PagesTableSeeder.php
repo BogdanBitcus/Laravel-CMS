@@ -14,7 +14,8 @@ class PagesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('pages')->insert([
-            ['parent' => 0, 'position' => 10, 'show' => 1, 'type' => 1, 'url' => '/', 'addr' => '', 'name' => '{}', 'date' => now(), 'img' => '{}', 'text' => '{}', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 0, 'position' => 10, 'show' => '0', 'type' => 1, 'url' => '', 'addr' => '/', 'name' => 'Home page', 'date' => now(), 'img' => '', 'text' => 'Some content', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 1, 'position' => 20, 'show' => '1', 'type' => 2, 'url' => 'about', 'addr' => 'about/', 'name' => 'About us', 'date' => now(), 'img' => '', 'text' => 'Content about us', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

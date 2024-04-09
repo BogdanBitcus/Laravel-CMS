@@ -19,6 +19,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        return redirect('/cms')->with('error', __('You do not have permission to access this page'));
+        //abort(403, 'Unauthorized');
     }
 }

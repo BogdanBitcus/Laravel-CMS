@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
             $table->integer('parent')->nullable();
             $table->integer('position')->nullable();
-            $table->tinyInteger('show')->default('0');
+            $table->tinyInteger('show')->nullable();
             $table->foreignId('type')->nullable()->constrained('types');
             $table->string('url')->nullable();
             $table->string('addr')->nullable();
-            $table->json('name')->nullable();
+            $table->string('name')->nullable();
             $table->date('date')->nullable();
-            $table->json('img')->nullable();
-            $table->json('text')->nullable();
-            $table->json('seo_title')->nullable();
-            $table->json('seo_description')->nullable();
-            $table->json('seo_keywords')->nullable();
+            $table->string('img')->nullable();
+            $table->string('text')->nullable();
+            $table->string('seo_title')->nullable();
+            $table->string('seo_description')->nullable();
+            $table->string('seo_keywords')->nullable();
             $table->timestamps();
         });
     }

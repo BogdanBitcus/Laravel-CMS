@@ -19,7 +19,7 @@ table,td { font-size:1em; border:0}
 input.img, input.chk {
     border-width: 0;
 }
-input.img {
+.img {
     cursor: pointer;
 }
 
@@ -312,7 +312,8 @@ input.medium {
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-input.big {
+input.big,
+textarea.big{
     padding: 0 5px;
     height: 23px;
     background: #fefefe url('/img/cms/bg_input.gif') repeat-x 0 0;
@@ -322,6 +323,7 @@ input.big {
     font: 12px Verdana, Arial, Sans-serif;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    margin: 7px 0 0 0;
 }
 select.select {
     padding: 0 0 0 5px;
@@ -391,7 +393,9 @@ fieldset {
     width: 90%;
     padding: 25px 50px;
 }
-
+.bold{
+    font-weight:bold;
+}
 .path {
     width: 100%;
     height: 25px;
@@ -548,4 +552,7 @@ span.title {
     line-height: 28px;
     text-align: center;
     width: 54px;
+}
+#infoblock, #seoblock{
+    display: none;
 }

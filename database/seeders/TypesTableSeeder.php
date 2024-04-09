@@ -15,6 +15,7 @@ class TypesTableSeeder extends Seeder
     {
         DB::table('types')->insert([
             ['name' => 'Home', 'view_tpl' => 'home.blade.php', 'admin_tpl' => 'edit_list', 'children' => '', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'About', 'view_tpl' => 'about.blade.php', 'admin_tpl' => 'edit_html', 'children' => '', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

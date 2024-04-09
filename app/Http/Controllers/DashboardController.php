@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+
     public function index(Request $request){
 
         $user = Auth::user();
@@ -17,4 +19,20 @@ class DashboardController extends Controller
 
         return view('system.dashboard', ['user'=>$user, 'page'=>$page, 'list'=>$list]);
     }
+
+
+
+    public function addpage(){
+        $page = Pages::createPage(1); // Create page with parent=1 at dashboard
+        return redirect('/cms/dashboard');
+    }
+
+
+    public function deletepage($id){
+        $page = Pages::removePage($id);
+        return response()->json(['message' => 'Page deleted successfully']);
+    }
+
+
+
 }

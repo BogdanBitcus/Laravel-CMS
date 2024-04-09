@@ -14,7 +14,7 @@
                     <div class="tt">LaravelCMS</div>
                 </div>
                 <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{$user->name}}</b></div>
+                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
                     <a href="/" target="_blank" class="site">Public View</a>
                     <a href="/cms/logout" class="exit">Log Out</a>
                 </div>
@@ -31,7 +31,7 @@
             </div>-->
 
             <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Модулі</th></tr>
+                <tr><th>Modules</th></tr>
                 <tr><td><a href="/cms/edit/1">Dashboard</a></td></tr>
                 <tr><td><a href="/_s/types.php">Структура</a></td></tr>
                 <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
@@ -48,14 +48,14 @@
                 <div class="clear"></div>
                 <br>
 
-                <form name="admingu" action="/_s/s_list.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="relocate" value="<?=$_SERVER['REQUEST_URI']?>">
-                    <input type="hidden" name="table" value="pages">
-                    <input type="hidden" name="id" value="111111">
+                <form action="{{ url('/cms/save/'.$page->id) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id" value="1">
                     <input type="hidden" name="lang" value="en">
 
                     Title:<br />
-                    <input name="name_en_s" value="{{ json_decode($page->name) }}" class="bigtxt">
+                    <textarea name="name_s" class="bigtxt">@if (!empty($page->name)){{ json_decode($page->name)->en ?? '' }}@endif</textarea>
 
 
 
@@ -63,53 +63,44 @@
 
 
                     <div style="padding: 10px 0;">
-                        <div id="infoblock_a" class="display" onclick="showblock('infoblock');">Редактировать текстовую часть</div>
-                        <div id="seoblock_a" class="display" onclick="showblock('seoblock');">Редактировать SEO-блок</div>
+                        <div id="infoblock_a" class="display">Edit content</div>
+                        <div id="seoblock_a" class="display">Edit SEO</div>
                         <div class="clear"></div>
                     </div>
-                    <div id="infoblock" style="display:none;">
-                        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="table">
-                            <tr>
-                                <td>
-                                    <textarea cols='50' rows='5' id="html_en_s" name="html_en_s">text content</textarea>
-                                </td>
-                            </tr>
-                        </table>
+                    <div id="infoblock">
+                        <fieldset><legend>Content:</legend>
+                            Text:<br>
+                            <textarea cols='50' rows='3' id="text_s" name="text_s">@if (!empty($page->text)){{ json_decode($page->text)->en ?? '' }}@endif</textarea>
+                        </fieldset>
                     </div>
-                    <div id="seoblock" style="display:none;">
-                        <table cellspacing="0" cellpadding="0" border="0" class="table">
-                            <tr>
-                                <td>Title:</td>
-                                <td><input name="title_en_s" value="seo title" class="smtxt"></td>
-                            </tr>
-                            <tr>
-                                <td>Описание:</td>
-                                <td><textarea cols='50' rows='5' name="des_en_s">seo description</textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Ключевые&nbsp;слова:</td>
-                                <td><textarea cols='50' rows='5' name="key_en_s">seo keywords</textarea></td>
-                            </tr>
-                        </table>
+                    <div id="seoblock">
+                        <fieldset><legend>SEO:</legend>
+                            Title:<br>
+                            <textarea class="bigtxt" name="seo_title_s">@if (!empty($page->seo_title)){{ json_decode($page->seo_title)->en ?? '' }}@endif</textarea><br><br>
+                            Description:<br>
+                            <textarea class="bigtxt" name="seo_description_s">@if (!empty($page->seo_description)){{ json_decode($page->seo_description)->en ?? '' }}@endif</textarea><br><br>
+                            Keywords:<br>
+                            <textarea class="bigtxt" name="seo_keywords_s">@if (!empty($page->seo_keywords)){{ json_decode($page->seo_keywords)->en ?? '' }}@endif</textarea><br><br>
+                        </fieldset>
                     </div>
 
 
-                    <script type="text/javascript">ch=1</script>
+
 
                     <br>
                     <table cellspacing="0" cellpadding="0" class="list">
                         <tr>
-                            <th>show</th>
-                            <th>позиция</th>
+                            <th>Show</th>
+                            <th>Position</th>
                             <th>URL</th>
-                            <th>название</th>
+                            <th>Name</th>
                             <th>&nbsp;</th>
-                            <th>Тип</th>
+                            <th>Template</th>
                         </tr>
                         <tr>
-                            <td><input class="enable_all" type="checkbox" value="1" name="enabl"></td>
+                            <td>&nbsp;</td>
                             <td colspan="100">
-                                <a href="/_s/n_list_item.php?table=pages&amp;pos=1&amp;parent=0&amp;relocate=<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return go(this.href)"><img src="/img/cms/doc-plus.gif" style="margin: 0 0 -2px;" alt="Добавить" > Добавить в начало списка</a>
+                                <a href="/cms/dashboard/addpage/<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return go(this.href)"><img src="/img/cms/doc-plus.gif" style="margin: 0 0 -2px;" alt="Добавить" > Добавить в начало списка</a>
                             </td>
                         </tr>
 
@@ -133,7 +124,9 @@
                             </td>
                             <td nowrap>
                                 <a href="/en/edit/1/?relocate=/en/edit/1/" onclick="return go(this.href)"><img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="редактировать" ></a>
-                                <a href="/_s/del.php?id=1&amp;table=pages&amp;relocate=<?echo urlencode($_SERVER['REQUEST_URI'])?>" onclick="return confirm('Удалить элемент? ВНИМАНИЕ!!! Удалятся все дочерние/вложеные элементы!') ? go(this.href) : false"><img style="margin: 0 0 -3px;" src="/img/cms/del.gif" alt="удалить"></a>
+                                <a href="/_s/del.php?id=1" onclick="return confirm('Delete item? WARNING!!! All child/nested elements will be removed!') ? go(this.href) : false">
+                                    <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" alt="Delete">
+                                </a>
                             </td>
                             <td nowrap='nowrap'>
                                 <select class="select" name="type_s_1" id="type_1" onchange="ch=1;" disabled >
