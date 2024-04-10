@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="/css/cms/cms.css">
 </head>
 <body>
+<div style="position:fixed;display:none;">Thanks to BTC :) 1B7nhzwUsUutJ7WHk5wL5aRbgfDCtHeU8k</div>
+
+@if (session('message'))
+    <div id="js_list_message">{{ session('message') }}</div>
+@endif
+
 <table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
     <tr>
         <td colspan='2' style='height:50px;'>
@@ -33,7 +39,7 @@
             <table cellspacing="0" cellpadding="0" class="addmod">
                 <tr><th>Modules</th></tr>
                 <tr><td><a href="/cms/dashboard" class="{{ $page->id==1 ? 'bold' : '' }}">Dashboard</a></td></tr>
-                <tr><td><a href="/_s/types.php">Структура</a></td></tr>
+                <tr><td><a href="/cms/types////">Структура</a></td></tr>
                 <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
                 <tr><td><a href="/_s/l_adm.php">Користувачі CMS</a></td></tr>
             </table>
@@ -42,8 +48,8 @@
             <div class="main">
                 <div class="path">
 
-                    <a href='/en/edit/1/'>page name</a>
-
+                    <a href='/cms/dashboard'>{{ $page->name }}</a>
+                    
                 </div>
                 <div class="clear"></div>
                 <br>
@@ -53,7 +59,7 @@
                     <input type="submit" class="save"  value="Add section/page">
                 </form>
 
-                <form action="{{ url('/cms/save/'.$page->id) }}" method="post">
+                <form action="{{ url('/cms/dashboard/save') }}" method="post">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="1">
@@ -77,17 +83,17 @@
 
                         <tr>
                             <td>
-                                <input type="checkbox" name="show_s_{{ $page->id }}" value="1" {{ $page->show == 1 ? 'checked="checked"' : '' }}>
+                                <input type="checkbox" name="show_{{ $page->id }}" value="1" {{ $page->show == 1 ? 'checked="checked"' : '' }}>
                             </td>
                             <td>
                                 <input name="position[{{ $page->id }}]" value="{{ $page->position }}" class="small">
                                 <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $page->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $page->id }},+11)">
                             </td>
                             <td>
-                                <input name="url_s_{{ $page->id }}" class="medium" value="/" disabled="disabled" onblur="check_url(this);">
+                                <input name="url_{{ $page->id }}" class="medium" value="/" disabled="disabled" onblur="check_url(this,{{ $page->id }});">
                             </td>
                             <td>
-                                <textarea name="name_s_{{ $page->id }}" class="big">{{ $page->name }}</textarea>
+                                <textarea name="name_{{ $page->id }}" class="big">{{ $page->name }}</textarea>
                             </td>
                             <td>
                                 <a href="/cms/edit/{{ $page->id }}">
@@ -95,13 +101,11 @@
                                 </a>
                             </td>
                             <td>
-                                <select class="select" name="type_s__{{ $page->id }}" id="type_{{ $page->id }}" disabled="disabled" >
-                                    <option value="1" selected="selected">type name</option>
+                                <select class="select" name="type_{{ $page->id }}" id="type_{{ $page->id }}" >
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}" {{ $page->type==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                    @endforeach
                                 </select>
-
-                                <a href="javascript:void(0);" id="type_enable_{{ $page->id }}" onclick="unlock_page_type({{ $page->id }});">
-                                    <img style="margin: 0 0 -3px;" src="/img/cms/block.gif" alt="Change page type" class="cursor">
-                                </a>
                             </td>
                         </tr>
 
@@ -110,17 +114,18 @@
                         @foreach ($list as $item)
                         <tr>
                             <td>
-                                <input type="checkbox" name="show_s_{{ $item->id }}" value="1" {{ $item->show == 1 ? 'checked="checked"' : '' }}>
+                                <input type="checkbox" name="show_{{ $item->id }}" value="1" {{ $item->show == 1 ? 'checked="checked"' : '' }}>
                             </td>
                             <td>
                                 <input name="position[{{ $item->id }}]" value="{{ $item->position }}" class="small">
                                 <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $item->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $item->id }},+11)">
                             </td>
                             <td>
-                                <input name="url_s_{{ $item->id }}" class="medium" value="{{ $item->url ? $item->url : $item->id }}" onblur="check_url(this);">
+                                <input name="url_{{ $item->id }}" class="medium" value="{{ $item->url ? $item->url : $item->id }}" onblur="check_url(this,{{ $item->id }});">
+                                <input type="hidden" name="addr_{{ $item->id }}" value="{{ $item->addr }}">
                             </td>
                             <td>
-                                <textarea name="name_s_{{ $item->id }}" class="big">{{ $item->name }}</textarea>
+                                <textarea name="name_{{ $item->id }}" class="big">{{ $item->name }}</textarea>
                             </td>
                             <td>
                                 <a href="/cms/edit/{{ $item->id }}">
@@ -129,13 +134,11 @@
                                 <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" class="img js_delete_page" data-id="{{ $item->id }}" alt="Delete" title="Delete">
                             </td>
                             <td>
-                                <select class="select" name="type_s__{{ $item->id }}" id="type_{{ $item->id }}" disabled="disabled" >
-                                    <option value="1" selected="selected">type name</option>
+                                <select class="select" name="type_{{ $item->id }}" id="type_{{ $item->id }}">
+                                    @foreach ($types as $type)
+                                    <option value="{{ $type->id }}" {{ $item->type==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                    @endforeach
                                 </select>
-
-                                <a href="javascript:void(0);" id="type_enable_{{ $item->id }}" onclick="unlock_page_type({{ $item->id }});">
-                                    <img style="margin: 0 0 -3px;" src="/img/cms/block.gif" alt="Change page type" class="cursor">
-                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -160,7 +163,7 @@
                 //event.preventDefault(); // Відміняємо стандартну дію посилання
                 var itemId = link.getAttribute('data-id');
                 if (confirm('Delete item? WARNING! All child/nested elements will be removed!')) {
-                    fetch('/cms/delete/' + itemId, {
+                    fetch('/cms/dashboard/delete/' + itemId, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -174,7 +177,7 @@
                             throw new Error('Failed to delete page');
                         }
                     }).then(data => {
-                        alert(data.message);
+                        //alert(data.message); // it is not necessary
                         window.location.reload();
                     }).catch(function(error) {
                         console.error('Error deleting item:', error);

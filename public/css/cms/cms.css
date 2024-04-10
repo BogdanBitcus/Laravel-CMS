@@ -556,3 +556,11 @@ span.title {
 #infoblock, #seoblock{
     display: none;
 }
+#js_list_message{
+    color:white;
+    background-color: #1c7430;
+    padding: 3px 5px;
+    position: fixed;
+    right: 0;
+    top:0;
+}

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent')->default(0);
             $table->string('name')->nullable();
-            $table->string('view_tpl');
-            $table->string('admin_tpl');
-            $table->string('children')->nullable();
+            $table->string('view_tpl')->nullable();
+            $table->string('admin_tpl')->nullable();
             $table->timestamps();
         });
     }

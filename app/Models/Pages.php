@@ -20,7 +20,7 @@ class Pages extends Model
 
 
     public static function getPagesByParent($id){
-        $pages = Pages::where('parent',$id)->get();
+        $pages = Pages::where('parent',$id)->orderBy('position')->get();
         return $pages;
     }
 

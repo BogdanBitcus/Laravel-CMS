@@ -53,6 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     });
+
+
+
+    // Hide InfoTips about action
+    var js_list_message = document.getElementById('js_list_message');
+    if(js_list_message) {
+        setTimeout(function () {
+            js_list_message.style.display = 'none';
+        }, 5000);
+    }
+
     // dashboard & list end
 
 
@@ -67,13 +78,17 @@ function move(id,val) {
 
 
 
-function check_url(el) {
+function check_url(el,id) {
     el.value = el.value.toLowerCase();
+    var s = document.querySelector('input[name="addr_'+id+'"]');
+    if(s){
+        s.value = '';
+    }
 }
 
 
 
-function unlock_page_type(id) {
+/*function unlock_page_type(id) {
     document.getElementById('type_'+id).disabled=false;
     document.getElementById('type_enable_'+id).style.display='none';
-}
+}*/

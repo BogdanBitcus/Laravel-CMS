@@ -18,4 +18,16 @@ class Types extends Model
         $template = Types::where('id',$id)->first();
         return $template;
     }
+
+
+
+    public static function getTemplatesByParent($parent)
+    {
+        $types = Types::where('parent', $parent)->get();
+        return $types;
+    }
+
+
+
+
 }
