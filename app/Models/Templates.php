@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Types extends Model
+class Templates extends Model
 {
     use HasFactory;
 
-    protected $table = 'types';
+    protected $table = 'templates';
 
 
 
     public static function getAdminTemplateByID($id)
     {
-        $template = Types::where('id',$id)->first();
+        $template = Templates::where('id',$id)->first();
         return $template;
     }
 
@@ -23,11 +23,7 @@ class Types extends Model
 
     public static function getTemplatesByParent($parent)
     {
-        $types = Types::where('parent', $parent)->get();
+        $types = Templates::where('parent', $parent)->get();
         return $types;
     }
-
-
-
-
 }

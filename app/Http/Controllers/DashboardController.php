@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pages;
-use App\Models\Types;
+use App\Models\Templates;
 use App\Helpers\CmsHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +18,9 @@ class DashboardController extends Controller
 
         $page = Pages::getPageById(1);
         $list = Pages::getPagesByParent(1);
-        $types = Types::getTemplatesByParent(0);
+        $templates = Templates::getTemplatesByParent(0);
 
-        return view('system.dashboard', ['user'=>$user, 'page'=>$page, 'list'=>$list, 'types'=>$types]);
+        return view('system.dashboard', ['user'=>$user, 'page'=>$page, 'list'=>$list, 'templates'=>$templates]);
     }
 
 
@@ -43,11 +43,11 @@ class DashboardController extends Controller
             foreach($positions as $itemId => $position){
                 $o+=10;
                 $query = Pages::where('id', $itemId)->update([
-                    'position'  => $o,
+                    'position' => $o,
                     'show' => $request->input('show_' . $itemId),
-                    'url'  => $request->input('url_'  . $itemId),
+                    'url' => $request->input('url_'  . $itemId),
                     'name' => $request->input('name_' . $itemId),
-                    'type' => $request->input('type_' . $itemId),
+                    'templates' => $request->input('templates_' . $itemId),
                 ]);
                 $addr = $request->input('addr_' . $itemId);
                 if($addr == '') {

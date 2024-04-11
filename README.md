@@ -11,10 +11,10 @@ Step 2: <br>
 Find link in table "pages" (field "addr") and we geting page ID.
 
 Step 3: <br>
-By this record we get ID type of page.
+By this record we get ID template of page.
 
 Step 4: <br>
-By ID type we getting view_template from table 'types' and show it for browser. 
+By ID template we getting view_template from table 'templates' and show it for browser. 
 
 
 # Setup

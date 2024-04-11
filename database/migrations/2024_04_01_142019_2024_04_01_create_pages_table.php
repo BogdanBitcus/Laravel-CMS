@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('parent')->nullable();
             $table->integer('position')->nullable();
             $table->tinyInteger('show')->nullable();
-            $table->foreignId('type')->nullable()->constrained('types');
+            $table->foreignId('template')->nullable()->constrained('templates');
             $table->string('url')->nullable();
             $table->string('addr')->nullable();
             $table->string('name')->nullable();

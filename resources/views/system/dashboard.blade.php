@@ -1,16 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>LaravelCMS</title>
-    <link rel="stylesheet" href="/css/cms/cms.css">
-</head>
-<body>
-<div style="position:fixed;display:none;">Thanks to BTC :) 1B7nhzwUsUutJ7WHk5wL5aRbgfDCtHeU8k</div>
 
-@if (session('message'))
-    <div id="js_list_message">{{ session('message') }}</div>
-@endif
+@include('system.admin_header')
 
 <table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
     <tr>
@@ -39,7 +28,7 @@
             <table cellspacing="0" cellpadding="0" class="addmod">
                 <tr><th>Modules</th></tr>
                 <tr><td><a href="/cms/dashboard" class="{{ $page->id==1 ? 'bold' : '' }}">Dashboard</a></td></tr>
-                <tr><td><a href="/cms/types////">Структура</a></td></tr>
+                <tr><td><a href="/cms/templates">Templates</a></td></tr>
                 <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
                 <tr><td><a href="/_s/l_adm.php">Користувачі CMS</a></td></tr>
             </table>
@@ -49,7 +38,7 @@
                 <div class="path">
 
                     <a href='/cms/dashboard'>{{ $page->name }}</a>
-                    
+
                 </div>
                 <div class="clear"></div>
                 <br>
@@ -101,9 +90,9 @@
                                 </a>
                             </td>
                             <td>
-                                <select class="select" name="type_{{ $page->id }}" id="type_{{ $page->id }}" >
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}" {{ $page->type==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                <select class="select" name="templates_{{ $page->id }}" id="templates_{{ $page->id }}" >
+                                    @foreach ($templates as $type)
+                                        <option value="{{ $type->id }}" {{ $page->templates==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -134,9 +123,9 @@
                                 <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" class="img js_delete_page" data-id="{{ $item->id }}" alt="Delete" title="Delete">
                             </td>
                             <td>
-                                <select class="select" name="type_{{ $item->id }}" id="type_{{ $item->id }}">
-                                    @foreach ($types as $type)
-                                    <option value="{{ $type->id }}" {{ $item->type==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                <select class="select" name="templates_{{ $item->id }}" id="templates_{{ $item->id }}">
+                                    @foreach ($templates as $type)
+                                    <option value="{{ $type->id }}" {{ $item->templates==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -187,6 +176,5 @@
         });
     });
 </script>
-<script type="text/javascript" src="/js/cms/cms.js"></script>
-</body>
-</html>
+
+@include('system.admin_footer')

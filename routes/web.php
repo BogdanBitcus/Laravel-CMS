@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TemplatesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -16,7 +17,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::view('/cms','system/auth');
+Route::view('/cms','system.auth');
 Route::post('/cms/login', [AuthController::class, 'login']);
 Route::get('/cms/logout', [AuthController::class, 'logout']);
 
@@ -24,6 +25,9 @@ Route::get('/cms/dashboard', [DashboardController::class, 'index'])->middleware(
 Route::post('/cms/dashboard/addpage', [DashboardController::class, 'addpage'])->middleware('admin');
 Route::put('/cms/dashboard/save',[DashboardController::class, 'save'])->middleware('admin');
 Route::delete('/cms/dashboard/delete/{id}', [DashboardController::class, 'deletepage'])->middleware('admin');
+
+Route::get('/cms/templates', [TemplatesController::class, 'index'])->middleware('admin');
+Route::get('/cms/templates/{id}', [TemplatesController::class, 'templateEdit'])->middleware('admin');
 
 Route::get('/cms/edit/{id}', [AdminController::class, 'index'])->where('id','[0-9]+')->middleware('admin');
 

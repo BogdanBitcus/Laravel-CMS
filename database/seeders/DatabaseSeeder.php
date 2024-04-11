@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            TypesTableSeeder::class,
+            TemplatesTableSeeder::class,
             PagesTableSeeder::class,
             UsersTableSeeder::class,
         ]);
