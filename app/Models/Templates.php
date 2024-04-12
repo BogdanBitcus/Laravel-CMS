@@ -13,6 +13,7 @@ class Templates extends Model
     protected $fillable = ['parent','name'];
 
 
+
     public static function getAdminTemplateByID($id)
     {
         $template = Templates::where('id',$id)->first();
@@ -28,10 +29,21 @@ class Templates extends Model
     }
 
 
+
     public  static function createTemplate(){
         return self::create([
             'parent' => 0,
             'name' => 'New Template',
         ]);
     }
+
+
+
+    public static function removePage($id)
+    {
+        return self::where('id', $id)->delete(); // forceDelete()
+    }
+
+
+
 }

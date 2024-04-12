@@ -30,6 +30,7 @@ Route::get('/cms/templates', [TemplatesController::class, 'index'])->middleware(
 Route::post('/cms/templates/add', [TemplatesController::class, 'addTemplate'])->middleware('admin');
 Route::get('/cms/templates/{id}', [TemplatesController::class, 'templateEdit'])->middleware('admin');
 Route::put('/cms/templates/save/{id}', [TemplatesController::class, 'templateSave'])->middleware('admin');
+Route::delete('/cms/templates/delete/{id}', [TemplatesController::class, 'templateDelete'])->middleware('admin');
 
 Route::get('/cms/edit/{id}', [AdminController::class, 'index'])->where('id','[0-9]+')->middleware('admin');
 

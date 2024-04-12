@@ -103,4 +103,10 @@ class TemplatesController extends Controller
         return redirect('/cms/templates/'.$template->id);
     }
 
+
+    public function templateDelete($id){
+        $page = Templates::removePage($id);
+        return response()->json(['message' => __('Template deleted successfully')]);
+    }
+
 }
