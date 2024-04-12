@@ -47,7 +47,7 @@ class DashboardController extends Controller
                     'show' => $request->input('show_' . $itemId),
                     'url' => $request->input('url_'  . $itemId),
                     'name' => $request->input('name_' . $itemId),
-                    'templates' => $request->input('templates_' . $itemId),
+                    'template' => $request->input('template_' . $itemId),
                 ]);
                 $addr = $request->input('addr_' . $itemId);
                 if($addr == '') {

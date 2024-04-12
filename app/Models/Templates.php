@@ -10,7 +10,7 @@ class Templates extends Model
     use HasFactory;
 
     protected $table = 'templates';
-
+    protected $fillable = ['parent','name'];
 
 
     public static function getAdminTemplateByID($id)
@@ -25,5 +25,13 @@ class Templates extends Model
     {
         $types = Templates::where('parent', $parent)->get();
         return $types;
+    }
+
+
+    public  static function createTemplate(){
+        return self::create([
+            'parent' => 0,
+            'name' => 'New Template',
+        ]);
     }
 }

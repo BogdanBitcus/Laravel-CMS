@@ -42,9 +42,9 @@ class TemplatesController extends Controller
                     $value = str_replace(".blade.php", "", $f);
 
                     if($template->view_tpl.'.blade.php' == $f){
-                        $selected = "selected='selected'";
+                        $selected = 1;
                     } else {
-                        $selected ='';
+                        $selected = 0;
                     }
 
                     $view_tpl[] = [
@@ -64,9 +64,9 @@ class TemplatesController extends Controller
                     $value = str_replace(".blade.php", "", $f);
 
                     if($template->admin_tpl.'.blade.php' == $f){
-                        $selected = "selected='selected'";
+                        $selected = 1;
                     } else {
-                        $selected ='';
+                        $selected = 0;
                     }
 
                     $admin_tpl[] = [
@@ -77,7 +77,30 @@ class TemplatesController extends Controller
                 }
             }
 
-        return view('system.template_edit', ['user'=>$user, 'template'=>$template, 'view_tpl'=>$view_tpl, 'admin_tpl'=>$admin_tpl]);
+        $templates = self::getTemplates(0);
+
+        return view('system.template_edit', ['user'=>$user, 'template'=>$template, 'view_tpl'=>$view_tpl, 'admin_tpl'=>$admin_tpl, 'templates'=>$templates]);
+    }
+
+
+
+
+    public function templateSave(Request $request, $id){
+
+        $query = Templates::where('id', $id)->update([
+            'parent' => $request->input('parent'),
+            'name' => $request->input('name'),
+            'view_tpl' => $request->input('view_tpl'),
+            'admin_tpl' => $request->input('admin_tpl'),
+        ]);
+
+        return redirect('/cms/templates')->with('message',__('Template saved'));
+    }
+
+
+    public function addTemplate(){
+        $template = Templates::createTemplate();
+        return redirect('/cms/templates/'.$template->id);
     }
 
 }

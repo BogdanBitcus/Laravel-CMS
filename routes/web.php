@@ -27,7 +27,9 @@ Route::put('/cms/dashboard/save',[DashboardController::class, 'save'])->middlewa
 Route::delete('/cms/dashboard/delete/{id}', [DashboardController::class, 'deletepage'])->middleware('admin');
 
 Route::get('/cms/templates', [TemplatesController::class, 'index'])->middleware('admin');
+Route::post('/cms/templates/add', [TemplatesController::class, 'addTemplate'])->middleware('admin');
 Route::get('/cms/templates/{id}', [TemplatesController::class, 'templateEdit'])->middleware('admin');
+Route::put('/cms/templates/save/{id}', [TemplatesController::class, 'templateSave'])->middleware('admin');
 
 Route::get('/cms/edit/{id}', [AdminController::class, 'index'])->where('id','[0-9]+')->middleware('admin');
 

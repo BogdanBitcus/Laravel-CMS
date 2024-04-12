@@ -90,9 +90,9 @@
                                 </a>
                             </td>
                             <td>
-                                <select class="select" name="templates_{{ $page->id }}" id="templates_{{ $page->id }}" >
+                                <select class="select" name="template_{{ $page->id }}" id="template_{{ $page->id }}" >
                                     @foreach ($templates as $type)
-                                        <option value="{{ $type->id }}" {{ $page->templates==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                        <option value="{{ $type->id }}" {{ $page->template==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -123,9 +123,9 @@
                                 <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" class="img js_delete_page" data-id="{{ $item->id }}" alt="Delete" title="Delete">
                             </td>
                             <td>
-                                <select class="select" name="templates_{{ $item->id }}" id="templates_{{ $item->id }}">
+                                <select class="select" name="template_{{ $item->id }}" id="template_{{ $item->id }}">
                                     @foreach ($templates as $type)
-                                    <option value="{{ $type->id }}" {{ $item->templates==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
+                                    <option value="{{ $type->id }}" {{ $item->template==$type->id ? 'selected="selected"' : '' }}>{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </td>
