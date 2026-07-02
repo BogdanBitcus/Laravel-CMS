@@ -42,7 +42,8 @@ class CmsHelper
                 $urlsReversed = array_reverse($urls);
                 $addr = implode("/", array_filter($urlsReversed));
 
-                Pages::where('id', $id)->update(['addr' => $addr.'/']);
+                Pages::where('id', $id)->update(['addr' => $addr]);
+                //Pages::where('id', $id)->update(['addr' => $addr.'/']);
             }
         }
     }

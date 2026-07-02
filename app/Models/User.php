@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -42,4 +43,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function getUserByAdmins(){
+        $users = self::where('is_admin',1)->get();
+        return $users;
+    }
+
+    public static function getUserById($id){
+        //if($id==0) { abort(404); }
+        $user = self::find($id);
+        return $user;
+    }
+
+
+    public static function createUserAdmin($name='Admin name',$email='new_email@website.com',$password='1',$is_admin=1){
+        return self::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'is_admin' => $is_admin
+        ]);
+    }
+
+
+    public static function removeUser($id){
+        return self::where('id', $id)->delete(); // forceDelete()
+    }
 }

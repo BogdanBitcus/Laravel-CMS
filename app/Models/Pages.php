@@ -14,7 +14,14 @@ class Pages extends Model
 
 
     public static function getPageById($id){
+        //if($id==0) { abort(404); }
         $page = Pages::where('id',$id)->first();
+        return $page;
+    }
+
+
+    public static function getPageByAddr($addr){
+        $page = Pages::where('addr',$addr)->first();
         return $page;
     }
 

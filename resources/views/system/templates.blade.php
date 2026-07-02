@@ -19,18 +19,18 @@
     </tr>
     <tr>
         <td class="menu" valign="top" align="center">
-            <div class="lang">
-                <a href="/cms/dashboard" class="a">en</a>
-                <a href="/cms/dashboard" class="n">ua</a>
+        <!--<div class="lang">
+                <a href="/cms/edit/" class="a">en</a>
+                <a href="/cms/edit//ua" class="n">ua</a>
                 <div class="clear"></div>
-            </div>
+            </div>-->
 
             <table cellspacing="0" cellpadding="0" class="addmod">
                 <tr><th>Modules</th></tr>
                 <tr><td><a href="/cms/dashboard">Dashboard</a></td></tr>
                 <tr><td><a href="/cms/templates" class="bold">Templates</a></td></tr>
-                <tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>
-                <tr><td><a href="/_s/l_adm.php">Користувачі CMS</a></td></tr>
+                <!--<tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>-->
+                <tr><td><a href="/cms/users">CMS users</a></td></tr>
             </table>
         </td>
         <td class="content" valign="top">

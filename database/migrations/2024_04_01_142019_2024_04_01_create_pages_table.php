@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->date('date')->nullable();
             $table->string('img')->nullable();
-            $table->string('text')->nullable();
+            $table->text('text')->nullable();
+            $table->text('options')->nullable();
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
             $table->string('seo_keywords')->nullable();

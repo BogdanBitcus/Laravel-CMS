@@ -277,7 +277,7 @@ table.list th {
     padding: 0 10px;
 }
 table.list td {
-    padding: 0 5px;
+    padding: 0 10px;
     line-height: 31px;
 }
 .content a {
@@ -564,4 +564,16 @@ span.title {
     right: 50%;
     top:0;
     border-radius: 5px;
+}
+.alert{
+    border:1px solid red;
+    padding: 10px;
+}
+.alert-danger ul li{
+    color:red;
+    font-weight: bold;
+}
+.error{
+    color:red;
+    font-weight: bold;
 }

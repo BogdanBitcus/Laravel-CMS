@@ -1,3 +1,4 @@
 
+<h1>{{ $page->name }}</h1>
 
- Gallery
+<content>{{ $page->text }}</content>

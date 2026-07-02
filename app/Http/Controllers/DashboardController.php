@@ -15,7 +15,10 @@ class DashboardController extends Controller
     public function index(Request $request){
 
         $user = Auth::user();
-
+        if ( ! $user->is_admin ) {
+            Auth::logout();
+            return redirect('/cms')->with('error', __('You do not have permission to access this page'));
+        }
         $page = Pages::getPageById(1);
         $list = Pages::getPagesByParent(1);
         $templates = Templates::getTemplatesByParent(0);
