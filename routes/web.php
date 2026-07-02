@@ -8,44 +8,51 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::view('/cms','system.auth');
-Route::post('/cms/login', [AuthController::class, 'login']);
-Route::get('/cms/logout', [AuthController::class, 'logout']);
+// LOGIN / LOGOUT
+Route::view('/cms','system.auth')->name('cms.auth');
+Route::post('/cms/login', [AuthController::class, 'login'])->name('cms.login');
+Route::get('/cms/logout', [AuthController::class, 'logout'])->name('cms.logout');
 
-Route::get('/cms/dashboard', [DashboardController::class, 'index'])->middleware('admin');
-Route::post('/cms/dashboard/addpage', [DashboardController::class, 'addpage'])->middleware('admin');
-Route::put('/cms/dashboard/save',[DashboardController::class, 'save'])->middleware('admin');
-Route::delete('/cms/dashboard/delete/{id}', [DashboardController::class, 'deletepage'])->middleware('admin');
+Route::middleware('admin')->group(function(){
 
-Route::get('/cms/templates', [TemplatesController::class, 'index'])->middleware('admin');
-Route::post('/cms/templates/add', [TemplatesController::class, 'addTemplate'])->middleware('admin');
-Route::get('/cms/templates/{id}', [TemplatesController::class, 'templateEdit'])->where('id','[0-9]+')->middleware('admin');
-Route::put('/cms/templates/save/{id}', [TemplatesController::class, 'templateSave'])->where('id','[0-9]+')->middleware('admin');
-Route::delete('/cms/templates/delete/{id}', [TemplatesController::class, 'templateDelete'])->where('id','[0-9]+')->middleware('admin');
+    // ADMINS
+    Route::controller(UsersController::class)->group(function(){
+        Route::get('/cms/users', 'index')->name('cms.users.index');
+        Route::post('/cms/users/create', 'createUserAdmin')->name('cms.users.create');
+        Route::get('/cms/users/edit/{id}', 'userEdit')->name('cms.users.edit')->where('id','[0-9]+');
+        Route::put('/cms/users/save/{user_for_save}', 'save')->name('cms.users.update')->whereNumber('user_for_save');
+        Route::delete('/cms/users/delete/{id}', 'deleteUser')->name('cms.users.delete');
+    });
 
-Route::get('/cms/users', [UsersController::class, 'index'])->middleware('admin');
-Route::post('/cms/users/create', [UsersController::class, 'createUserAdmin'])->middleware('admin');
-Route::get('/cms/users/{id}', [UsersController::class, 'userEdit'])->where('id','[0-9]+')->middleware('admin');
-Route::put('/cms/users/save/{user_for_save}',[UsersController::class, 'save'])->whereNumber('user_for_save')->middleware('admin');
-//Route::delete('/cms/users/delete/{id}', [UsersController::class, 'deleteuser'])->middleware('admin');
+    // TEMPLATES
+    Route::controller(TemplatesController::class)->group(function(){
+        Route::get('/cms/templates', 'index')->name('cms.templates.index');
+        Route::post('/cms/templates/add', 'addTemplate')->name('cms.templates.add');
+        Route::get('/cms/templates/{id}', 'templateEdit')->name('cms.templates.edit')->where('id','[0-9]+');
+        Route::put('/cms/templates/save/{id}', 'templateSave')->name('cms.templates.save')->where('id','[0-9]+');
+        Route::delete('/cms/templates/delete/{id}', 'templateDelete')->name('cms.templates.delete')->where('id','[0-9]+');
+    });
 
-Route::get('/cms/edit/{id}', [AdminController::class, 'index'])->where('id','[0-9]+')->middleware('admin');
+    // DASHBOARD
+    Route::controller(DashboardController::class)->group(function(){
+        Route::get('/cms/dashboard', 'index')->name('cms.dashboard.index');
+        Route::post('/cms/dashboard/addpage', 'addPage')->name('cms.dashboard.addpage');
+        Route::put('/cms/dashboard/save','save')->name('cms.dashboard.update');
+        Route::delete('/cms/dashboard/delete/{id}', 'deletePage')->name('cms.dashboard.delete')->whereNumber('id');
+    });
 
+    // EDIT PAGES
+    Route::controller(AdminController::class)->group(function() {
+        Route::get('/cms/page/{id}', 'index')->name('cms.page.index')->where('id', '[0-9]+');
+        Route::post('/cms/page/create/{parent}', 'createPage')->name('cms.page.create')->whereNumber('parent');
+        Route::put('/cms/page/save/{id}', 'savePage')->name('cms.page.update')->where('id', '[0-9]+');
+        Route::delete('/cms/pages/delete/{id}', 'deletePage')->name('cms.page.delete')->whereNumber('id');
+    });
+});
 
-
+// HOME / PAGES
 Route::get('/', [PageController::class, 'showPage']);
-
 //Route::get('/{lang}/{link}', 'PageController@showPage');
 //Route::get('/{link?}', [PageController::class, 'showPage'])->where('link','[.*]');
 Route::fallback([PageController::class, 'showPage']);

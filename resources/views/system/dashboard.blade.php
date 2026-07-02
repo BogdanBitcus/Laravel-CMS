@@ -1,54 +1,19 @@
 
 @include('system.admin_header')
 
-<table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
-    <tr>
-        <td colspan='2' style='height:50px;'>
-            <div id="header">
-                <div id="lh">
-                    <div class="tt">LaravelCMS</div>
-                </div>
-                <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
-                    <a href="/" target="_blank" class="site">Public View</a>
-                    <a href="/cms/logout" class="exit">Log Out</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="menu" valign="top" align="center">
-            <!--<div class="lang">
-                <a href="/cms/edit/{{ $page->id }}" class="a">en</a>
-                <a href="/cms/edit/{{ $page->id }}/ua" class="n">ua</a>
-                <div class="clear"></div>
-            </div>-->
-
-            <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Modules</th></tr>
-                <tr><td><a href="/cms/dashboard" class="{{ $page->id==1 ? 'bold' : '' }}">Dashboard</a></td></tr>
-                <tr><td><a href="/cms/templates">Templates</a></td></tr>
-                <!--<tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>-->
-                <tr><td><a href="/cms/users">CMS users</a></td></tr>
-            </table>
-        </td>
-        <td class="content" valign="top">
-            <div class="main">
                 <div class="path">
-
-                    <a href='/cms/dashboard'>{{ $page->name }}</a>
-
+                    <a href='{{ route('cms.dashboard.index') }}'>{{ $page->name }}</a>
                 </div>
+
                 <div class="clear"></div>
                 <br>
 
-                <form action="{{ url('/cms/dashboard/addpage') }}" method="post">
+                <form action="{{ route('cms.dashboard.addpage') }}" method="post">
                     @csrf
                     <input type="submit" class="save"  value="Add section/page">
                 </form>
 
-                <form action="{{ url('/cms/dashboard/save') }}" method="post">
+                <form action="{{ route('cms.dashboard.update') }}" method="post">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="1">
@@ -85,7 +50,7 @@
                                 <textarea name="name_{{ $page->id }}" class="big">{{ $page->name }}</textarea>
                             </td>
                             <td>
-                                <a href="/cms/edit/{{ $page->id }}">
+                                <a href="{{ route('cms.page.index', $page) }}">
                                     <img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="Edit" >
                                 </a>
                             </td>
@@ -117,7 +82,7 @@
                                 <textarea name="name_{{ $item->id }}" class="big">{{ $item->name }}</textarea>
                             </td>
                             <td>
-                                <a href="/cms/edit/{{ $item->id }}">
+                                <a href="{{ route('cms.page.index', $item) }}">
                                     <img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="Edit" title="Edit" >
                                 </a>
                                 <img style="margin: 0 0 -3px;" src="/img/cms/del.gif" class="img js_delete_page" data-id="{{ $item->id }}" alt="Delete" title="Delete">
@@ -140,19 +105,17 @@
                     <input type="submit" class="save" value="Save">
 
                 </form>
-            </div>
-        </td>
-    </tr>
-</table>
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var deleteLinks = document.querySelectorAll('.js_delete_page');
         deleteLinks.forEach(function(link) {
             link.addEventListener('click', function(event) {
                 //event.preventDefault(); // Відміняємо стандартну дію посилання
+                var url = "{{ route('cms.dashboard.delete', ['id'=>'___ID___']) }}";
                 var itemId = link.getAttribute('data-id');
                 if (confirm('Delete item? WARNING! All child/nested elements will be removed!')) {
-                    fetch('/cms/dashboard/delete/' + itemId, {
+                    fetch(url.replace('___ID___', itemId), {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

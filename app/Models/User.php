@@ -45,7 +45,7 @@ class User extends Authenticatable
     ];
 
     public static function getUserByAdmins(){
-        $users = self::where('is_admin',1)->get();
+        $users = self::where('is_admin', 1)->get();
         return $users;
     }
 

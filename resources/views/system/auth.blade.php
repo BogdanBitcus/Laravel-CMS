@@ -7,21 +7,19 @@
     <title>Log In to LaravelCMS</title>
 </head>
 <body class='auth_body'>
-<form method=POST name='_auth' action="{{ url('/cms/login') }}">
+<form method=POST name='_auth' action="{{ route('cms.login') }}">
     @csrf
     <div class='auth_div1'>
         <div class='auth_div2'><input type='text' value='' name='email' id="auth_email" placeholder="{{ __('Email') }}" onclick="this.focus();" class='auth_input1'></div>
         <div class='auth_div2'><input type='password' value='' name='password' id="auth_password" placeholder="{{ __('Password') }}" class='auth_input1'></div>
         <div class='auth_div2'><input type='submit' class='auth_input2' value='{{ __('Enter') }}'></div>
-
         @if (session('error'))
             <p style='color:red;' id="js_auth_error">
                 {{ session('error') }}
             </p>
         @endif
-
     </div>
 </form>
-
-@include('system.admin_footer')
-
+<script type="text/javascript" src="/js/cms/cms.js"></script>
+</body>
+</html>

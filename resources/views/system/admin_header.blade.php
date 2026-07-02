@@ -11,3 +11,40 @@
 @if (session('message'))
     <div id="js_list_message">{{ session('message') }}</div>
 @endif
+
+<table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
+    <tr>
+        <td colspan='2' style='height:50px;'>
+            <div id="header">
+                <div id="lh">
+                    <div class="tt">LaravelCMS</div>
+                </div>
+                <div id="rh" style='padding:0px;'>
+                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
+                    @if( isset($page) )
+                        <a href="{{ url($page->addr) }}" target="_blank" class="site">Public View</a>
+                    @endif
+                    <a href="{{ route('cms.logout') }}" class="exit">Log Out</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="menu" valign="top" align="center">
+            <!--<div class="lang">
+                <a href="/cms/edit/" class="a">en</a>
+                <a href="/cms/edit//ua" class="n">ua</a>
+                <div class="clear"></div>
+            </div>-->
+
+            <table cellspacing="0" cellpadding="0" class="addmod">
+                <tr><th>Modules</th></tr>
+                <tr><td><a href="{{ route('cms.dashboard.index') }}" class="{{ request()->routeIs('cms.dashboard.*') ? 'bold' : '' }}">Dashboard</a></td></tr>
+                <tr><td><a href="{{ route('cms.templates.index') }}" class="{{ request()->routeIs('cms.templates.*') ? 'bold' : '' }}">Templates</a></td></tr>
+                <tr><td><a href="{{ route('cms.users.index') }}"     class='{{ request()->routeIs('cms.users.*') ? 'bold' : '' }}'>    CMS users</a></td></tr>
+                <!--<tr><td><a href="/_s/l_langs.php">Translates</a></td></tr>-->
+            </table>
+        </td>
+        <td class="content" valign="top">
+            <div class="main">

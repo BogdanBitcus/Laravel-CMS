@@ -14,10 +14,10 @@ class UsersController extends Controller
     public function index(Request $request){
 
         $user = Auth::user();
-        if ( ! $user->is_admin ) {
+        /*if ( ! $user->is_admin ) {
             Auth::logout();
             return redirect('/cms')->with('error', __('You do not have permission to access this page'));
-        }
+        }*/
         $userslist = User::getUserByAdmins();
 
         return view('system.users', ['user'=>$user, 'list'=>$userslist]);
@@ -62,34 +62,34 @@ class UsersController extends Controller
                 Rule::unique('users')->ignore($user_for_save->id),
             ],
             'password' => 'nullable|min:8|confirmed',
-            'is_admin' => 'boolean',
+            //'is_admin' => 'boolean',
         ]);
 
         $user_for_save->fill([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'is_admin' => $request->boolean('is_admin')
+            //'is_admin' => $request->boolean('is_admin')
         ]);
 
         if ( ! empty($validated['password']) ) {
             $user_for_save->password = $validated['password'];
         }
 
-        if ( $user_for_save->is(Auth::user()) ) {
+        /*if ( $user_for_save->is(Auth::user()) ) {
             $user_for_save->is_admin = true;
-        }
+        }*/
 
         $user_for_save->save();
 
         return redirect('/cms/users')->with('message',__('User Saved'));
     }
 
-/*
 
-    public function deletepage($id)
+
+    public function deleteUser($id)
     {
-        $page = Pages::removePage($id);
+        $user = User::removeUser($id);
         return response()->json(['message' => __('Page deleted successfully')]);
-    }*/
+    }
 
 }

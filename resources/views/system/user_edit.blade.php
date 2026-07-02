@@ -1,50 +1,14 @@
 
 @include('system.admin_header')
 
-<table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
-    <tr>
-        <td colspan='2' style='height:50px;'>
-            <div id="header">
-                <div id="lh">
-                    <div class="tt">LaravelCMS</div>
-                </div>
-                <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
-                    <a href="/" target="_blank" class="site">Public View</a>
-                    <a href="/cms/logout" class="exit">Log Out</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="menu" valign="top" align="center">
-            <!--<div class="lang">
-                    <a href="/cms/edit/" class="a">en</a>
-                    <a href="/cms/edit//ua" class="n">ua</a>
-                    <div class="clear"></div>
-                </div>-->
-
-            <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Modules</th></tr>
-                <tr><td><a href="/cms/dashboard" class="">Dashboard</a></td></tr>
-                <tr><td><a href="/cms/templates">Templates</a></td></tr>
-                <!--<tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>-->
-                <tr><td><a href="/cms/users" class='bold'>CMS users</a></td></tr>
-            </table>
-        </td>
-        <td class="content" valign="top">
-            <div class="main">
                 <div class="path">
-
-                    <a href='/cms/users'>All Users</a>
-
+                    <a href='{{ route('cms.users.index') }}'>All Users</a>
                 </div>
+
                 <div class="clear"></div>
                 <br>
 
-
-                <form action="{{ url('/cms/users/save/'.$user_edit->id ) }}" method="post">
+                <form action="{{ route('cms.users.update', $user_edit) }}" method="post">
                     @csrf
                     @method('PUT')
 
@@ -63,7 +27,7 @@
                         <tr>
                             <td>Name:</td>
                             <td>
-                                <input name="name" class="big" value="{{ old('name', $user_edit->name) }}">
+                                <input name="name" class="big @error('name') is-invalid @enderror" value="{{ old('name', $user_edit->name) }}">
                                 @error('name')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
@@ -73,7 +37,7 @@
                         <tr>
                             <td>Email:</td>
                             <td>
-                                <input name="email" class="big" value="{{ old('email', $user_edit->email) }}">
+                                <input name="email" class="big @error('email') is-invalid @enderror" value="{{ old('email', $user_edit->email) }}">
                                 @error('email')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
@@ -93,7 +57,7 @@
                             </td>
                         </tr>
 
-                        <tr>
+                        <!--<tr>
                             <td>Admin:</td>
                             <td>
                                 <select name="is_admin">
@@ -105,7 +69,7 @@
                                     </option>
                                 </select>
                             </td>
-                        </tr>
+                        </tr>-->
 
                     </table>
 
@@ -113,9 +77,5 @@
                     <input type="submit" class="save" value="Save">
 
                 </form>
-            </div>
-        </td>
-    </tr>
-</table>
 
 @include('system.admin_footer')

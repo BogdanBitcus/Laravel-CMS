@@ -1,43 +1,8 @@
 
 @include('system.admin_header')
 
-<table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
-    <tr>
-        <td colspan='2' style='height:50px;'>
-            <div id="header">
-                <div id="lh">
-                    <div class="tt">LaravelCMS</div>
-                </div>
-                <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
-                    <a href="/" target="_blank" class="site">Public View</a>
-                    <a href="/cms/logout" class="exit">Log Out</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="menu" valign="top" align="center">
-        <!--<div class="lang">
-                <a href="/cms/edit/" class="a">en</a>
-                <a href="/cms/edit//ua" class="n">ua</a>
-                <div class="clear"></div>
-            </div>-->
-
-            <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Modules</th></tr>
-                <tr><td><a href="/cms/dashboard">Dashboard</a></td></tr>
-                <tr><td><a href="/cms/templates" class="bold">Templates</a></td></tr>
-                <!--<tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>-->
-                <tr><td><a href="/cms/users">CMS users</a></td></tr>
-            </table>
-        </td>
-        <td class="content" valign="top">
-            <div class="main">
-
                 <br>
-                <form action="{{ url('/cms/templates/add') }}" method="post">
+                <form action="{{ route('cms.templates.add') }}" method="post">
                     @csrf
                     <input type="submit" class="save"  value="Add template">
                 </form>
@@ -59,10 +24,7 @@
                     @endforeach
                 </ul>
 
-            </div>
-        </td>
-    </tr>
-</table>
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var deleteLinks = document.querySelectorAll('.js_delete_template');
@@ -71,23 +33,27 @@
                 //event.preventDefault(); // Відміняємо стандартну дію посилання
                 var itemId = link.getAttribute('data-id');
                 if (confirm('Delete item?')) {
-                    fetch('/cms/templates/delete/' + itemId, {
+                    const url = "{{ route('cms.templates.delete', ['id' => '__ID__']) }}";
+                    fetch(url.replace('__ID__', itemId), {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json',
                             'Accept': 'application/json'
                         },
-                    }).then(response => {
+                    })
+                    .then(response => {
                         if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Failed to delete template');
-                    }
-                }).then(data => {
+                            return response.json();
+                        } else {
+                            throw new Error('Failed to delete template');
+                        }
+                    })
+                    .then(data => {
                         //alert(data.message); // it is not necessary
                         window.location.reload();
-                }).catch(function(error) {
+                    })
+                    .catch(function(error) {
                         console.error('Error deleting item:', error);
                     });
                 }

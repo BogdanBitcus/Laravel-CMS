@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         if ( ! $user->is_admin ) {
             Auth::logout();
-            return redirect('/cms')->with('error', __('You do not have permission to access this page'));
+            return redirect()->route('cms.auth')->with('error', __('You do not have permission to access this page'));
         }
         $page = Pages::getPageById(1);
         $list = Pages::getPagesByParent(1);
@@ -28,10 +28,10 @@ class DashboardController extends Controller
 
 
 
-    public function addpage()
+    public function addPage()
     {
         $page = Pages::createPage(1); // Create page with parent=1 at dashboard
-        return redirect('/cms/dashboard');
+        return redirect()->route('cms.dashboard.index');
     }
 
 
@@ -61,12 +61,12 @@ class DashboardController extends Controller
 
         CmsHelper::makeAddr();
 
-        return redirect('/cms/dashboard')->with('message',__('Page Saved'));
+        return redirect()->route('cms.dashboard.index')->with('message',__('Page Saved'));
     }
 
 
 
-    public function deletepage($id)
+    public function deletePage($id)
     {
         $page = Pages::removePage($id);
         return response()->json(['message' => __('Page deleted successfully')]);

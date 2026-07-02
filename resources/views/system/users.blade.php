@@ -1,54 +1,19 @@
 
 @include('system.admin_header')
 
-<table style='width:100%;height:100%;' cellspacing="0" cellpadding="0">
-    <tr>
-        <td colspan='2' style='height:50px;'>
-            <div id="header">
-                <div id="lh">
-                    <div class="tt">LaravelCMS</div>
-                </div>
-                <div id="rh" style='padding:0px;'>
-                    <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
-                    <a href="/" target="_blank" class="site">Public View</a>
-                    <a href="/cms/logout" class="exit">Log Out</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="menu" valign="top" align="center">
-        <!--<div class="lang">
-                <a href="/cms/edit/" class="a">en</a>
-                <a href="/cms/edit//ua" class="n">ua</a>
-                <div class="clear"></div>
-            </div>-->
-
-            <table cellspacing="0" cellpadding="0" class="addmod">
-                <tr><th>Modules</th></tr>
-                <tr><td><a href="/cms/dashboard" class="">Dashboard</a></td></tr>
-                <tr><td><a href="/cms/templates">Templates</a></td></tr>
-                <!--<tr><td><a href="/_s/l_langs.php">Переклади</a></td></tr>-->
-                <tr><td><a href="/cms/users" class='bold'>CMS users</a></td></tr>
-            </table>
-        </td>
-        <td class="content" valign="top">
-            <div class="main">
                 <div class="path">
-
-                    <a href='/cms/dashboard'></a>
-
+                    <a href='{{ route('cms.dashboard.index') }}'></a>
                 </div>
+
                 <div class="clear"></div>
                 <br>
 
-                <form action="{{ url('/cms/users/create') }}" method="post">
+                <form action="{{ route('cms.users.create') }}" method="post">
                     @csrf
                     <input type="submit" class="save"  value="Add user">
                 </form>
 
-               <!-- <form action="{{ url('/cms/users/save') }}" method="post">
+               <!-- <form action="{ { url('/cms/users/save') } }" method="post">
                     @csrf
                     @method('PUT')
                 -->
@@ -77,7 +42,7 @@
                                     <textarea name="password_{{ $item->id }}" class="big">{{ $item->password }}</textarea>
                                 </td>-->
                                 <td style="border-bottom: 1px solid black;">
-                                    <a href="/cms/users/{{ $item->id }}">
+                                    <a href="{{ route('cms.users.edit',$item) }}">
                                         <img style="margin: 0 0 -3px;" src="/img/cms/edit.gif" alt="Edit" >
                                     </a>
                                 </td>
@@ -97,19 +62,16 @@
                     <!--<input type="submit" class="save" value="Save">-->
 
                 <!--</form>-->
-            </div>
-        </td>
-    </tr>
-</table>
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var deleteLinks = document.querySelectorAll('.js_delete_user');
         deleteLinks.forEach(function(link) {
             link.addEventListener('click', function(event) {
-
+                const url = "{{ route('cms.users.delete', ['id'=>'___ID___']) }}";
                 var itemId = link.getAttribute('data-id');
                 if (confirm('Are you sure you want to delete the user?')) {
-                    fetch('/cms/users/delete/' + itemId, {
+                    fetch(url.replace('___ID___', itemId), {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
