@@ -7,6 +7,7 @@ use App\Http\Controllers\TemplatesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Cms\FileManagerController;
 
 
 // LOGIN / LOGOUT
@@ -15,6 +16,22 @@ Route::post('/cms/login', [AuthController::class, 'login'])->name('cms.login');
 Route::get('/cms/logout', [AuthController::class, 'logout'])->name('cms.logout');
 
 Route::middleware('admin')->group(function(){
+
+    // FILEMANAGER
+    Route::prefix('cms/filemanager')
+        ->group(function () {
+            Route::post('/fileslist', [FileManagerController::class, 'filesList']);
+            Route::post('/upload', [FileManagerController::class, 'upload']);
+            Route::post('/createdir', [FileManagerController::class, 'createDir']);
+            Route::post('/dirtree', [FileManagerController::class, 'dirTree']);
+            Route::post('/deletefile', [FileManagerController::class, 'deleteFile']);
+            Route::post('/deletedir', [FileManagerController::class, 'deleteDir']);
+
+            Route::post('/renamedir', [FileManagerController::class, 'renameDir']);
+            Route::post('/renamefile', [FileManagerController::class, 'renameFile']);
+
+
+        });
 
     // ADMINS
     Route::controller(UsersController::class)->group(function(){

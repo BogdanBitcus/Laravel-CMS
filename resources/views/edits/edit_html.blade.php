@@ -33,21 +33,30 @@
 
 
                     Date:<br />
-                    <input name="date" class="medium" value="{{ $page->date }}" class="date">
+                    <input name="date" class="medium datepicker" value="{{ $page->date }}">
                     <br /><br />
 
 
                     Image:<br />
                     <div class='flex'>
-                        <div><input name="image" class="medium" value="{{ $page->image }}" class="image"></div>
-                        <div><img src="/img/cms/no_image_icon_50.png" ></div>
-                        <div><a class="display">Select Image</a></div>
+                        <div><input type="text" name="image" id="path_image" class="medium" value="{{ $page->image }}"></div>
+                        <div><img src="/img/cms/no_image_icon_50.png" id="img_image" style="max-height: 50px;max-width: 50px;" ></div>
+                        <div><a class="display" onclick="openCustomRoxy('image')">Select Image</a></div>
+                    </div>
+                    <br /><br />
+
+
+                    Image (mob):<br />
+                    <div class='flex'>
+                        <div><input type="text" name="image_mob" id="path_image_mob" class="medium image" value="{{ $page->image_mob }}"></div>
+                        <div><img src="/img/cms/no_image_icon_50.png" id="img_image_mob" style="max-height: 50px;max-width: 50px;" ></div>
+                        <div><a class="display" onclick="openCustomRoxy('image_mob')">Select Image</a></div>
                     </div>
                     <br /><br />
 
 
                     Text:<br />
-                    <textarea name="text" class="smtxt">@if (!empty($page->text)){{ json_decode($page->text)->en ?? '' }}@endif</textarea>
+                    <textarea name="text" class="smtxt js_tinymce">@if (!empty($page->text)){{ json_decode($page->text)->en ?? '' }}@endif</textarea>
                     <br /><br />
 
 

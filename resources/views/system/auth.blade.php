@@ -20,6 +20,17 @@
         @endif
     </div>
 </form>
-<script type="text/javascript" src="/js/cms/cms.js"></script>
+<script type="text/javascript">
+    var auth_email = document.getElementById('auth_email');
+    var js_auth_error = document.getElementById('js_auth_error');
+    if(auth_email){
+        auth_email.focus();
+    }
+    setTimeout(function(){
+        if(js_auth_error){
+            js_auth_error.style.display = 'none';
+        }
+    },5000);
+</script>
 </body>
 </html>

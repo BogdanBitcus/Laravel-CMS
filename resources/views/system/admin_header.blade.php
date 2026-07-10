@@ -4,6 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>LaravelCMS</title>
     <link rel="stylesheet" href="/css/cms/cms.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script type="text/javascript">
+        window.csrfToken = '{{ csrf_token() }}';
+    </script>
+
 </head>
 <body>
 <div style="position:fixed;display:none;">Thanks to BTC :) 1B7nhzwUsUutJ7WHk5wL5aRbgfDCtHeU8k</div>
