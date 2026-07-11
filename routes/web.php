@@ -26,11 +26,15 @@ Route::middleware('admin')->group(function(){
             Route::post('/dirtree', [FileManagerController::class, 'dirTree']);
             Route::post('/deletefile', [FileManagerController::class, 'deleteFile']);
             Route::post('/deletedir', [FileManagerController::class, 'deleteDir']);
-
             Route::post('/renamedir', [FileManagerController::class, 'renameDir']);
             Route::post('/renamefile', [FileManagerController::class, 'renameFile']);
-
-
+            Route::post('/movefile', [FileManagerController::class, 'moveFile']);
+            Route::post('/copyfile', [FileManagerController::class, 'copyFile']);
+            Route::post('/movedir', [FileManagerController::class, 'moveDir']);
+            Route::post('/copydir', [FileManagerController::class, 'copyDir']);
+            Route::get('/download', [FileManagerController::class, 'download']);
+            Route::get('/thumb', [FileManagerController::class, 'thumb']);
+            //Route::get('/downloaddir', [FileManagerController::class, 'downloadDir']);
         });
 
     // ADMINS
