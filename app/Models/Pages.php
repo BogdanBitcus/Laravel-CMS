@@ -13,10 +13,9 @@ class Pages extends Model
     protected $fillable = ['parent','position','show'];
 
 
-    public static function getPageById($id){
-        //if($id==0) { abort(404); }
-        $page = Pages::where('id',$id)->first();
-        return $page;
+    public static function getPageById(int $id): ?self
+    {
+        return self::find($id);
     }
 
 
@@ -26,10 +25,12 @@ class Pages extends Model
     }
 
 
+
     public static function getPagesByParent($id){
         $pages = Pages::where('parent',$id)->orderBy('position')->get();
         return $pages;
     }
+
 
 
     public static function createPage($parent){
@@ -41,7 +42,41 @@ class Pages extends Model
     }
 
 
-    public static function removePage($id){
-        return self::where('id', $id)->delete(); // forceDelete()
+
+    public function deleteWithChildren(): bool
+    {
+        foreach ($this->children as $child) {
+            $child->deleteWithChildren();
+        }
+        return $this->delete();
     }
+
+
+
+    public function parentPage()
+    {
+        return $this->belongsTo(Pages::class, 'parent');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Pages::class, 'parent');
+    }
+
+
+
+    public function breadcrumbs(): array
+    {
+        $items = [];
+        $page = $this;
+        while ($page) {
+            array_unshift($items, $page);
+            $page = $page->parentPage;
+        }
+        return $items;
+    }
+
+
+
+
 }

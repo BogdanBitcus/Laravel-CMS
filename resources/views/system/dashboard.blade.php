@@ -112,7 +112,7 @@
         deleteLinks.forEach(function(link) {
             link.addEventListener('click', function(event) {
                 //event.preventDefault(); // Відміняємо стандартну дію посилання
-                var url = "{{ route('cms.dashboard.delete', ['id'=>'___ID___']) }}";
+                var url = "{{ route('cms.dashboard.delete', ['page'=>'___ID___']) }}";
                 var itemId = link.getAttribute('data-id');
                 if (confirm('Delete item? WARNING! All child/nested elements will be removed!')) {
                     fetch(url.replace('___ID___', itemId), {

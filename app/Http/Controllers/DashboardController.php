@@ -66,9 +66,9 @@ class DashboardController extends Controller
 
 
 
-    public function deletePage($id)
+    public function deletePage(Pages $page)
     {
-        $page = Pages::removePage($id);
+        $page->deleteWithChildren();
         return response()->json(['message' => __('Page deleted successfully')]);
     }
 

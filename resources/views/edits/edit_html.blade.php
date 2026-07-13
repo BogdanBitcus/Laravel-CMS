@@ -1,27 +1,21 @@
 @include('system.admin_header')
 
-                <div class="path">
-                    <a href='/en/edit/1/'>page name</a>
-                    <a href='/en/edit/1/'>page name 2</a>
-                </div>
-                <div class="clear"></div>
-                <br>
+@include('system.partials.breadcrumbs')
 
                 <form action="{{ route('cms.page.update', $page) }}" method="post">
                     @csrf
                     @method('PUT')
 
 
-
                     Title:<br />
-                    <input name="name" class="bigtxt" value="@if (!empty($page->name)){{ json_decode($page->name)->en ?? '' }}@endif">
+                    <input name="name" class="bigtxt" value="@if (!empty($page->name)){{ $page->name }}@endif">
                     <br /><br />
 
 
                     Show / Hide:<br />
                     <select name="show_s" class="select">
-                        <option vajlue="1">SHOW</option>
-                        <option vajlue="0">HIDE</option>
+                        <option vajlue="1" @if($page->show==1) selected="selected"@endif>SHOW</option>
+                        <option vajlue="0" @if($page->show==0) selected="selected"@endif>HIDE</option>
                     </select>
                     <br /><br />
 
@@ -56,32 +50,17 @@
 
 
                     Text:<br />
-                    <textarea name="text" class="smtxt js_tinymce">@if (!empty($page->text)){{ json_decode($page->text)->en ?? '' }}@endif</textarea>
+                    <textarea name="text" class="smtxt js_tinymce">@if (!empty($page->text)){{ $page->text }}@endif</textarea>
                     <br /><br />
 
 
 
                     <div style="padding: 10px 0;">
-                        <!--<div id="infoblock_a" class="display">Edit content</div>-->
                         <div id="seoblock_a" class="display">Edit SEO</div>
                         <div class="clear"></div>
                     </div>
-                    <!--<div id="infoblock">
-                        <fieldset><legend>Content:</legend>
-                            Text:<br>
-                            <textarea cols='50' rows='3' id="text_s" name="text_s">@if (!empty($page->text)){{ json_decode($page->text)->en ?? '' }}@endif</textarea>
-                        </fieldset>
-                    </div>-->
-                    <div id="seoblock">
-                        <fieldset><legend>SEO:</legend>
-                            Title:<br>
-                            <textarea class="bigtxt" name="seo_title_s">@if (!empty($page->seo_title)){{ json_decode($page->seo_title)->en ?? '' }}@endif</textarea><br><br>
-                            Description:<br>
-                            <textarea class="bigtxt" name="seo_description_s">@if (!empty($page->seo_description)){{ json_decode($page->seo_description)->en ?? '' }}@endif</textarea><br><br>
-                            Keywords:<br>
-                            <textarea class="bigtxt" name="seo_keywords_s">@if (!empty($page->seo_keywords)){{ json_decode($page->seo_keywords)->en ?? '' }}@endif</textarea><br><br>
-                        </fieldset>
-                    </div>
+                    @include('system.partials.seoblock')
+
 
                     <br><br><input type="submit" class="save" value="Save">
 

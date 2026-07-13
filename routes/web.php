@@ -60,15 +60,15 @@ Route::middleware('admin')->group(function(){
         Route::get('/cms/dashboard', 'index')->name('cms.dashboard.index');
         Route::post('/cms/dashboard/addpage', 'addPage')->name('cms.dashboard.addpage');
         Route::put('/cms/dashboard/save','save')->name('cms.dashboard.update');
-        Route::delete('/cms/dashboard/delete/{id}', 'deletePage')->name('cms.dashboard.delete')->whereNumber('id');
+        Route::delete('/cms/dashboard/delete/{page}', 'deletePage')->name('cms.dashboard.delete')->whereNumber('page');
     });
 
     // EDIT PAGES
     Route::controller(AdminController::class)->group(function() {
-        Route::get('/cms/page/{id}', 'index')->name('cms.page.index')->where('id', '[0-9]+');
-        Route::post('/cms/page/create/{parent}', 'createPage')->name('cms.page.create')->whereNumber('parent');
-        Route::put('/cms/page/save/{id}', 'savePage')->name('cms.page.update')->where('id', '[0-9]+');
-        Route::delete('/cms/pages/delete/{id}', 'deletePage')->name('cms.page.delete')->whereNumber('id');
+        Route::get('/cms/page/{page}', 'index')->name('cms.page.index')->where('page', '[0-9]+');
+        Route::post('/cms/page/create/{page}', 'createPage')->name('cms.page.create')->whereNumber('page');
+        Route::put('/cms/page/save/{page}', 'savePage')->name('cms.page.update')->where('page', '[0-9]+');
+        Route::delete('/cms/pages/delete/{page}', 'deletePage')->name('cms.page.delete')->whereNumber('page');
     });
 });
 

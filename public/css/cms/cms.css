@@ -385,7 +385,8 @@ fieldset {
     border-radius: 3px;
     padding: 0 10px;
 }
-.path a {
+.path a,
+.path span {
     float: left;
     display: block;
     padding: 0 20px 0 10px;
@@ -394,6 +395,9 @@ fieldset {
     line-height: 25px;
     font-style: italic;
     background: transparent url('/img/cms/a_path.gif') no-repeat top right;
+}
+.path span{
+    background: none;
 }
 .path a:hover{
     color: #464646;
