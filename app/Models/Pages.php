@@ -10,7 +10,23 @@ class Pages extends Model
     use HasFactory;
 
     protected $table = 'pages';
-    protected $fillable = ['parent','position','show'];
+    protected $fillable = [
+        'parent',
+        'position',
+        'published',
+        'template',
+        'slug',
+        'addr',
+        'name',
+        'date',
+        'image',
+        'mobile_image',
+        'content',
+        'options',
+        'seo_title',
+        'seo_keywords',
+        'seo_description',
+    ];
 
 
     public static function getPageById(int $id): ?self
@@ -37,7 +53,7 @@ class Pages extends Model
         return self::create([
             'parent' => $parent,
             'position' => 99999,
-            'show' => 0
+            'published' => 0
         ]);
     }
 
@@ -63,6 +79,11 @@ class Pages extends Model
         return $this->hasMany(Pages::class, 'parent');
     }
 
+    public function childrenRecursive()
+    {
+        return $this->children()->with('childrenRecursive');
+    }
+
 
 
     public function breadcrumbs(): array
@@ -74,6 +95,21 @@ class Pages extends Model
             $page = $page->parentPage;
         }
         return $items;
+    }
+
+
+
+    public function makeAddr(): string
+    {
+        $parts = [];
+        $page = $this;
+        while ($page) {
+            if (!empty($page->slug)) {
+                array_unshift($parts, $page->slug);
+            }
+            $page = $page->parentPage;
+        }
+        return implode('/', $parts);
     }
 
 

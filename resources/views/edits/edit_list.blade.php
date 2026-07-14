@@ -14,9 +14,41 @@
                     @csrf
                     @method('PUT')
 
+                    <br>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
 
                     Title:<br />
-                    <textarea name="name_s" class="bigtxt">@if (!empty($page->name)){{ $page->name }}@endif</textarea>
+                    <textarea name="name" class="bigtxt">@if (!empty($page->name)){{ old('name', $page->name) }}@endif</textarea>
+                    @error('name')
+                    <div class="error">{{ $message }}</div>
+                    @enderror
+                    <br /><br />
+
+
+                    Published / Hide:<br />
+                    <select name="published" class="select">
+                        <option value="1" @selected($page->published)>PUBLISHED</option>
+                        <option value="0" @selected(!$page->published)>HIDE</option>
+                    </select>
+                    <br /><br />
+
+
+                    Url:<br />
+                    <input name="slug" class="medium" value="{{ $page->slug ? $page->slug : $page->id }}" onblur="check_url(this,{{ $page->id }});">
+                    <input type="hidden" name="addr" value="{{ $page->addr }}">
+                    @error('slug')
+                    <div class="error">{{ $message }}</div>
+                    @enderror
+                    <br /><br />
 
 
                     <div style="padding: 10px 0;">
@@ -32,7 +64,7 @@
                     <br>
                     <table cellspacing="0" cellpadding="0" class="list">
                         <tr>
-                            <th>Show</th>
+                            <th>Published</th>
                             <th>Position</th>
                             <th>URL</th>
                             <th>Name</th>
@@ -50,14 +82,14 @@
                         @foreach ($list as $item)
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="show_{{ $item->id }}" value="1" {{ $item->show == 1 ? 'checked="checked"' : '' }}>
+                                    <input type="checkbox" name="published_{{ $item->id }}" value="1" {{ $item->published == 1 ? 'checked="checked"' : '' }}>
                                 </td>
                                 <td>
                                     <input name="position[{{ $item->id }}]" value="{{ $item->position }}" class="small">
                                     <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $item->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $item->id }},+11)">
                                 </td>
                                 <td>
-                                    <input name="url_{{ $item->id }}" class="medium" value="{{ $item->url ? $item->url : $item->id }}" onblur="check_url(this,{{ $item->id }});">
+                                    <input name="slug_{{ $item->id }}" class="medium" value="{{ $item->slug ? $item->slug : $item->id }}" onblur="check_url(this,{{ $item->id }});">
                                     <input type="hidden" name="addr_{{ $item->id }}" value="{{ $item->addr }}">
                                 </td>
                                 <td>

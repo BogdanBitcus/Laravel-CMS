@@ -39,29 +39,44 @@ class DashboardController extends Controller
     public function save(Request $request)
     {
         $positions = $request->input('position', []);
-        if(is_array($positions)){
+        if (is_array($positions) && !empty($positions)) {
+
             asort($positions, SORT_NUMERIC);
-            reset($positions);
-            $o=0;
-            foreach($positions as $itemId => $position){
-                $o+=10;
-                $query = Pages::where('id', $itemId)->update([
-                    'position' => $o,
-                    'show' => $request->input('show_' . $itemId),
-                    'url' => $request->input('url_'  . $itemId),
-                    'name' => $request->input('name_' . $itemId),
-                    'template' => $request->input('template_' . $itemId),
-                ]);
-                $addr = $request->input('addr_' . $itemId);
-                if($addr == '') {
-                    CmsHelper::makeNull($itemId);
+
+            $pages = Pages::whereIn('id', array_keys($positions))
+                ->get()
+                ->keyBy('id');
+
+            $position = 0;
+            foreach ($positions as $itemId => $value) {
+
+                $position += 10;
+
+                if (!isset($pages[$itemId])) {
+                    continue;
+                }
+
+                $page = $pages[$itemId];
+
+                $oldSlug = $page->slug;
+
+                $page->position = $position;
+                $page->published = $request->boolean('published_'.$itemId);
+                $page->slug = trim($request->input('slug_'.$itemId));
+                $page->name = trim($request->input('name_'.$itemId));
+                $page->template = (int)$request->input('template_'.$itemId);
+
+                $page->save();
+
+                if ($oldSlug !== $page->slug) {
+                    CmsHelper::rebuildAddr($page);
                 }
             }
         }
 
-        CmsHelper::makeAddr();
-
-        return redirect()->route('cms.dashboard.index')->with('message',__('Page Saved'));
+        return redirect()
+            ->route('cms.dashboard.index')
+            ->with('message', __('Page Saved'));
     }
 
 

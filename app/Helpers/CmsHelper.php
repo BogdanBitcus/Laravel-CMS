@@ -9,44 +9,29 @@ use App\Models\Pages;
 class CmsHelper
 {
 
-
-    public static function makeNull($id)
+    public static function rebuildAddr(Pages $page): void
     {
-        Pages::where('id', $id)->update(['addr' => '']);
+        $page->loadMissing('parentPage', 'childrenRecursive');
 
-        $pages = Pages::where('parent', $id)->get();
+        self::updateBranch($page, $page->parentPage?->addr ?? '');
+    }
 
-        foreach ($pages as $page) {
-            self::makeNull($page->id);
+
+    protected static function updateBranch(Pages $page, string $parentAddr): void
+    {
+        $addr = trim($parentAddr . '/' . $page->slug, '/');
+
+        if ($page->addr !== $addr) {
+            $page->addr = $addr;
+            $page->save();
+        }
+
+        foreach ($page->childrenRecursive as $child) {
+            self::updateBranch($child, $addr);
         }
     }
 
 
-
-    public static function makeAddr()
-    {
-        $noAddrIds = Pages::where('addr', '')->pluck('id')->toArray();
-
-        if(!empty($noAddrIds)) {
-            foreach ($noAddrIds as $id) {
-                $urls = [];
-                $url = Pages::where('id', $id)->select('url', 'parent')->first();
-
-                while ($url) {
-                    if ($url['url'] != '') {
-                        $urls[] = $url['url'];
-                    }
-                    $url = Pages::where('id', $url['parent'])->select('url', 'parent')->first();
-                }
-
-                $urlsReversed = array_reverse($urls);
-                $addr = implode("/", array_filter($urlsReversed));
-
-                Pages::where('id', $id)->update(['addr' => $addr]);
-                //Pages::where('id', $id)->update(['addr' => $addr.'/']);
-            }
-        }
-    }
 
 
 

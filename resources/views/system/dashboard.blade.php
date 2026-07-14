@@ -1,9 +1,11 @@
 
 @include('system.admin_header')
 
+                @if( ! $page==null)
                 <div class="path">
                     <a href='{{ route('cms.dashboard.index') }}'>{{ $page->name }}</a>
                 </div>
+                @endif
 
                 <div class="clear"></div>
                 <br>
@@ -35,16 +37,17 @@
                             <th>Template</th>
                         </tr>
 
+                        @if( ! $page==null)
                         <tr>
                             <td>
-                                <input type="checkbox" name="show_{{ $page->id }}" value="1" {{ $page->show == 1 ? 'checked="checked"' : '' }}>
+                                <input type="checkbox" name="published_{{ $page->id }}" value="1" {{ $page->published == 1 ? 'checked="checked"' : '' }}>
                             </td>
                             <td>
                                 <input name="position[{{ $page->id }}]" value="{{ $page->position }}" class="small">
                                 <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $page->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $page->id }},+11)">
                             </td>
                             <td>
-                                <input name="url_{{ $page->id }}" class="medium" value="/" disabled="disabled" onblur="check_url(this,{{ $page->id }});">
+                                <input name="slug_{{ $page->id }}" class="medium" value="/" disabled="disabled" onblur="check_url(this,{{ $page->id }});">
                             </td>
                             <td>
                                 <textarea name="name_{{ $page->id }}" class="big">{{ $page->name }}</textarea>
@@ -62,20 +65,20 @@
                                 </select>
                             </td>
                         </tr>
-
+                        @endif
 
 
                         @foreach ($list as $item)
                         <tr>
                             <td>
-                                <input type="checkbox" name="show_{{ $item->id }}" value="1" {{ $item->show == 1 ? 'checked="checked"' : '' }}>
+                                <input type="checkbox" name="published_{{ $item->id }}" value="1" {{ $item->published == 1 ? 'checked="checked"' : '' }}>
                             </td>
                             <td>
                                 <input name="position[{{ $item->id }}]" value="{{ $item->position }}" class="small">
                                 <img style="margin: 0 0 -7px;" src="/img/cms/top.gif" alt="Up" title="Up" onclick="move({{ $item->id }},-11)"><img style="margin: 0 0 -7px;" src="/img/cms/bottom.gif" alt="Down" title="Down" onclick="move({{ $item->id }},+11)">
                             </td>
                             <td>
-                                <input name="url_{{ $item->id }}" class="medium" value="{{ $item->url ? $item->url : $item->id }}" onblur="check_url(this,{{ $item->id }});">
+                                <input name="slug_{{ $item->id }}" class="medium" value="{{ $item->slug ? $item->slug : $item->id }}" onblur="check_url(this,{{ $item->id }});">
                                 <input type="hidden" name="addr_{{ $item->id }}" value="{{ $item->addr }}">
                             </td>
                             <td>

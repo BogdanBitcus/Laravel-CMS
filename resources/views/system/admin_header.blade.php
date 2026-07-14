@@ -28,7 +28,7 @@
                 </div>
                 <div id="rh" style='padding:0px;'>
                     <div style='text-align:right;'>Hello, <b>{{ $user->name }}</b></div>
-                    @if( isset($page) )
+                    @if( isset($page->addr) )
                         <a href="{{ url($page->addr) }}" target="_blank" class="site">Public View</a>
                     @endif
                     <a href="{{ route('cms.logout') }}" class="exit">Log Out</a>

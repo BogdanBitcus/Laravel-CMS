@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // dashboard & list end
 
 
-    $( ".datepicker" ).datepicker({ dateFormat: "dd.mm.yy" });
+    $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
 
 
 
