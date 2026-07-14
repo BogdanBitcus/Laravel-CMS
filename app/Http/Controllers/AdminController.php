@@ -50,6 +50,7 @@ class AdminController extends Controller
 
     public function savePage(Request $request, Pages $page)
     {
+        $pagesAddrNeedUpdate = [];
         $validated = $request->validate([
             'name'       => 'required|string|max:255',
             'published'  => 'required|boolean',
@@ -65,7 +66,7 @@ class AdminController extends Controller
             ],
             'date'       => 'nullable|date',
             'image'      => 'nullable|string|max:255',
-            'mobile_image'  => 'nullable|string|max:255',
+            'mobile_image' => 'nullable|string|max:255',
             'content'    => 'nullable|string',
 
             // SEO
@@ -80,7 +81,8 @@ class AdminController extends Controller
         $page->save();
 
         if ($slugChanged) {
-            CmsHelper::rebuildAddr($page);
+            //CmsHelper::rebuildAddr($page);
+            $pagesAddrNeedUpdate[] = $page->id;
         }
 
         $positions = $request->input('position', []);
@@ -119,11 +121,14 @@ class AdminController extends Controller
                 }
 
                 if ($oldSlug !== $newSlug) {
-                    CmsHelper::rebuildAddr($child);
+                    //CmsHelper::rebuildAddr($child)
+                    $pagesAddrNeedUpdate[] = $child->id;
                 }
 
             }
         }
+
+        CmsHelper::rebuildAddr($pagesAddrNeedUpdate);
 
         return redirect()
             ->route('cms.page.index', $page)

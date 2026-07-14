@@ -38,6 +38,7 @@ class DashboardController extends Controller
 
     public function save(Request $request)
     {
+        $pagesAddrNeedUpdate = [];
         $positions = $request->input('position', []);
         if (is_array($positions) && !empty($positions)) {
 
@@ -69,10 +70,12 @@ class DashboardController extends Controller
                 $page->save();
 
                 if ($oldSlug !== $page->slug) {
-                    CmsHelper::rebuildAddr($page);
+                    $pagesAddrNeedUpdate[] = $page->id;
                 }
             }
         }
+
+        CmsHelper::rebuildAddr($pagesAddrNeedUpdate);
 
         return redirect()
             ->route('cms.dashboard.index')

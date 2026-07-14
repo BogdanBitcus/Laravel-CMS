@@ -79,10 +79,10 @@ class Pages extends Model
         return $this->hasMany(Pages::class, 'parent');
     }
 
-    public function childrenRecursive()
+    /*public function childrenRecursive()
     {
         return $this->children()->with('childrenRecursive');
-    }
+    }*/
 
 
 
@@ -99,7 +99,7 @@ class Pages extends Model
 
 
 
-    public function makeAddr(): string
+    /*public function makeAddr(): string
     {
         $parts = [];
         $page = $this;
@@ -110,7 +110,7 @@ class Pages extends Model
             $page = $page->parentPage;
         }
         return implode('/', $parts);
-    }
+    }*/
 
 
 
