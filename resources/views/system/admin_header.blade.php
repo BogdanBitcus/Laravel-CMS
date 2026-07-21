@@ -50,7 +50,7 @@
                 <tr><td><a href="{{ route('cms.dashboard.index') }}" class="{{ request()->routeIs('cms.dashboard.*') ? 'bold' : '' }}">Dashboard</a></td></tr>
                 <tr><td><a href="{{ route('cms.templates.index') }}" class="{{ request()->routeIs('cms.templates.*') ? 'bold' : '' }}">Templates</a></td></tr>
                 <tr><td><a href="{{ route('cms.users.index') }}"     class='{{ request()->routeIs('cms.users.*') ? 'bold' : '' }}'>    CMS users</a></td></tr>
-                <!--<tr><td><a href="/_s/l_langs.php">Translates</a></td></tr>-->
+                <tr><td><a href="{{ route('cms.messages.index') }}"  class='{{ request()->routeIs('cms.messages.index') ? 'bold' : '' }}'> Contact form Messages</a></td></tr>
             </table>
         </td>
         <td class="content" valign="top">

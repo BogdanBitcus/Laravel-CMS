@@ -566,3 +566,19 @@ span.title {
 .flex div{
     margin: 0 20px 0 0;
 }
+.pagination{
+    padding: 20px 0 20px 0;
+}
+.pagination a,
+.pagination span,
+.pagination strong{
+    font-size: 1em;
+    display: block;
+    float: left;
+    padding:4px 7px;
+    border:1px solid grey;
+    margin:0 5px 0 0;
+}
+.pagination a{
+    padding-bottom: 4px;
+}

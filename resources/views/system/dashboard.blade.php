@@ -20,6 +20,7 @@
                     @method('PUT')
                     <input type="hidden" name="id" value="1">
                     <input type="hidden" name="lang" value="en">
+                    <input type="hidden" name="slug" value="">
 
 
 

@@ -8,7 +8,7 @@ use App\Models\Templates;
 
 class PageController extends Controller
 {
-    public function showPage($link='') {
+    public function showPage(Request $request, $link='') {
 
         $link = trim($link, '/');
 
@@ -23,23 +23,15 @@ class PageController extends Controller
         }
 
         switch ($page->template){
-            case '2' : // About us
+            case '2' : // About Us
+
                 break;
-            case '3' : // News list
-                break;
-            case '4' : // New
-                break;
-            case '5' : // Gallery
-                break;
-            case '6' : // Contacts
-                break;
+            case '5' : // Contacts controller
+                return app(ContactController::class)->index($request, $template, $page);
+
             default: // can be some...
-                break;
+                return view('views.'.$template->view_tpl, ['page'=>$page] );
         }
 
-
-
-
-        return view('views.'.$template->view_tpl, ['page'=>$page] );
     }
 }

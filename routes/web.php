@@ -4,6 +4,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TemplatesController;
+use App\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
@@ -70,10 +71,19 @@ Route::middleware('admin')->group(function(){
         Route::put('/cms/page/save/{page}', 'savePage')->name('cms.page.update')->where('page', '[0-9]+');
         Route::delete('/cms/pages/delete/{page}', 'deletePage')->name('cms.page.delete')->whereNumber('page');
     });
+
+    // CONTACT FORM MESSAGES
+    Route::controller(MessagesController::class)->group(function() {
+        Route::get('/cms/messages/list/', 'index')->name('cms.messages.index');
+        Route::delete('/cms/messages/delete/{message}', 'deleteMessage')->name('cms.message.delete')->whereNumber('message');
+    });
+
 });
 
 // HOME / PAGES
 Route::get('/', [PageController::class, 'showPage']);
 //Route::get('/{lang}/{link}', 'PageController@showPage');
 //Route::get('/{link?}', [PageController::class, 'showPage'])->where('link','[.*]');
-Route::fallback([PageController::class, 'showPage']);
+//Route::fallback([PageController::class, 'showPage']);
+
+Route::match(['get','post'], '{link?}', [PageController::class,'showPage'])->where('link','.*');

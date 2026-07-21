@@ -12,7 +12,7 @@
 
     <h1>{{ $page->name }}</h1>
 
-    <content>{{ $page->text }}</content>
+    <content>{{ $page->content }}</content>
 
 
     <br><br>Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
