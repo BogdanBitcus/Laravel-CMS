@@ -99,18 +99,15 @@ class Pages extends Model
 
 
 
-    /*public function makeAddr(): string
+    public function getOptionsAttribute($value): array
     {
-        $parts = [];
-        $page = $this;
-        while ($page) {
-            if (!empty($page->slug)) {
-                array_unshift($parts, $page->slug);
-            }
-            $page = $page->parentPage;
-        }
-        return implode('/', $parts);
-    }*/
+        return $value ? unserialize($value, ['allowed_classes' => false]) ?: [] : [];
+    }
+
+    public function setOptionsAttribute($value): void
+    {
+        $this->attributes['options'] = empty($value) ? null : serialize($value);
+    }
 
 
 

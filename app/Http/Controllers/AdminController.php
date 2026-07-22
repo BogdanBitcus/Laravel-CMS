@@ -20,6 +20,10 @@ class AdminController extends Controller
         $admin_teplate = Templates::getAdminTemplateByID($page->template);
         $templates = Templates::getTemplatesByParent($page->template);
 
+        foreach ($page->options as $key => $value) {
+            $page->{$key} = $value;
+        }
+
         return view(
             'edits.'.$admin_teplate->admin_tpl,
             [
@@ -77,7 +81,17 @@ class AdminController extends Controller
 
         $slugChanged = $page->slug !== $validated['slug'];
 
+        // custom fields with prefix 'custom_'
+        $options = [];
+        foreach ($request->all() as $key => $value) {
+
+            if (str_starts_with($key, 'custom_') && $value !== '') {
+                $options[$key] = $value;
+            }
+        }
+
         $page->fill($validated);
+        $page->options = $options;
         $page->save();
 
         if ($slugChanged) {

@@ -17,6 +17,10 @@ class PageController extends Controller
             abort(404);
         }
 
+        foreach ($page->options as $key => $value) {
+            $page->{$key} = $value;
+        }
+
         $template = Templates::getAdminTemplateByID($page->template);
         if (!$template) {
             abort(404);
@@ -24,7 +28,7 @@ class PageController extends Controller
 
         switch ($page->template){
             case '2' : // About Us
-
+                return view('views.'.$template->view_tpl, ['page'=>$page] );
                 break;
             case '5' : // Contacts controller
                 return app(ContactController::class)->index($request, $template, $page);
