@@ -1,7 +1,7 @@
 
 <h1>{{ $page->name }}</h1>
 
-<content>{{ $page->content }}</content>
+<content>{!! $page->content !!}</content>
 
 <h2>Contact us here</h2>
 <form action="{{ url()->current() }}" method="post" >

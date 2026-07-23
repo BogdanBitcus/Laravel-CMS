@@ -30,8 +30,14 @@ class PageController extends Controller
             case '2' : // About Us
                 return view('views.'.$template->view_tpl, ['page'=>$page] );
                 break;
+
+            case '3' : // News list
+                return app(NewsListController::class)->index($request, $template, $page);
+                break;
+
             case '5' : // Contacts controller
                 return app(ContactController::class)->index($request, $template, $page);
+                break;
 
             default: // can be some...
                 return view('views.'.$template->view_tpl, ['page'=>$page] );

@@ -54,7 +54,7 @@
                     Image:<br />
                     <div class='flex'>
                         <div><input type="text" name="image" id="path_image" class="medium" value="{{ old('image', $page->image) }}"></div>
-                        <div><img src="/img/cms/no_image_icon_50.png" id="img_image" style="max-height: 50px;max-width: 50px;" ></div>
+                        <div><img src="{{ old('image', $page->image ?: '/img/cms/no_image_icon_50.png') }}" id="img_image" style="max-height: 50px;max-width: 50px;" ></div>
                         <div><a class="display" onclick="openCustomRoxy('image')">Select Image</a></div>
                     </div>
                     @error('image')
@@ -66,7 +66,7 @@
                     Image (mob):<br />
                     <div class='flex'>
                         <div><input type="text" name="mobile_image" id="path_mobile_image" class="medium image" value="{{ old('mobile_image', $page->mobile_image) }}"></div>
-                        <div><img src="/img/cms/no_image_icon_50.png" id="img_mobile_image" style="max-height: 50px;max-width: 50px;" ></div>
+                        <div><img src="{{ old('mobile_image', $page->mobile_image ?: '/img/cms/no_image_icon_50.png') }}" id="img_mobile_image" style="max-height: 50px;max-width: 50px;" ></div>
                         <div><a class="display" onclick="openCustomRoxy('mobile_image')">Select Image</a></div>
                     </div>
                     @error('mobile_image')
@@ -96,7 +96,7 @@
                     Custom Image:<br />
                     <div class='flex'>
                         <div><input type="text" name="custom_image" id="path_custom_image" class="medium image" value="{{ old('custom_image', $page->custom_image) }}"></div>
-                        <div><img src="/img/cms/no_image_icon_50.png" id="img_custom_image" style="max-height: 50px;max-width: 50px;" ></div>
+                        <div><img src="{{ old('custom_image', $page->custom_image ?: '/img/cms/no_image_icon_50.png') }}" id="img_custom_image" style="max-height: 50px;max-width: 50px;" ></div>
                         <div><a class="display" onclick="openCustomRoxy('custom_image')">Select Image</a></div>
                     </div>
                     @error('custom_image')

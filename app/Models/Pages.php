@@ -42,9 +42,15 @@ class Pages extends Model
 
 
 
-    public static function getPagesByParent($id){
-        $pages = Pages::where('parent',$id)->orderBy('position')->get();
-        return $pages;
+    public static function getPagesByParent($id, $published=1){
+
+        $pages = Pages::where('parent',$id);
+
+        if($published != 'all'){
+            $pages->where('published',$published);
+        }
+
+        return $pages->orderBy('position')->get();
     }
 
 
@@ -74,15 +80,12 @@ class Pages extends Model
         return $this->belongsTo(Pages::class, 'parent');
     }
 
+
     public function children()
     {
         return $this->hasMany(Pages::class, 'parent');
     }
 
-    /*public function childrenRecursive()
-    {
-        return $this->children()->with('childrenRecursive');
-    }*/
 
 
 
@@ -104,11 +107,36 @@ class Pages extends Model
         return $value ? unserialize($value, ['allowed_classes' => false]) ?: [] : [];
     }
 
+
     public function setOptionsAttribute($value): void
     {
         $this->attributes['options'] = empty($value) ? null : serialize($value);
     }
 
+
+    public function __get($key)
+    {
+        if (str_starts_with($key, 'custom_')) {
+            return $this->options[$key] ?? null;
+        }
+
+        return parent::__get($key);
+    }
+
+
+    public function __set($key, $value)
+    {
+        if (str_starts_with($key, 'custom_')) {
+
+            $options = $this->options;
+            $options[$key] = $value;
+            $this->options = $options;
+
+            return;
+        }
+
+        parent::__set($key, $value);
+    }
 
 
 
