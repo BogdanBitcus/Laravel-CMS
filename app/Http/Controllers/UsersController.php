@@ -14,10 +14,7 @@ class UsersController extends Controller
     public function index(Request $request){
 
         $user = Auth::user();
-        /*if ( ! $user->is_admin ) {
-            Auth::logout();
-            return redirect('/cms')->with('error', __('You do not have permission to access this page'));
-        }*/
+
         $userslist = User::getUserByAdmins();
 
         return view('system.users', ['user'=>$user, 'list'=>$userslist]);
@@ -61,8 +58,7 @@ class UsersController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($user_for_save->id),
             ],
-            'password' => 'nullable|min:8|confirmed',
-            //'is_admin' => 'boolean',
+            'password' => 'nullable|min:8|confirmed'
         ]);
 
         $user_for_save->fill([
@@ -74,10 +70,6 @@ class UsersController extends Controller
         if ( ! empty($validated['password']) ) {
             $user_for_save->password = $validated['password'];
         }
-
-        /*if ( $user_for_save->is(Auth::user()) ) {
-            $user_for_save->is_admin = true;
-        }*/
 
         $user_for_save->save();
 

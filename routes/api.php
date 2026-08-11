@@ -21,8 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+Route::middleware('auth:sanctum')->group(function () {
 
-/*
+    /*
 GET     /books
 GET     /books/{book}
 POST    /books
@@ -30,8 +31,6 @@ PUT     /books/{book}
 PATCH   /books/{book}
 DELETE  /books/{book}
 */
-Route::middleware('auth:sanctum')->group(function () {
-
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{book}', [BookController::class, 'show']);
     Route::post('/books', [BookController::class, 'store']);
@@ -40,13 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/books/{book}', [BookController::class, 'destroy']);
 
     //Route::apiResource('books', BookController::class);
-});
 
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class,'login']);
-
-Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);
@@ -55,5 +49,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/tokens/{id}', [AuthController::class, 'renameToken']);
 });
 
-
-
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class,'login']);

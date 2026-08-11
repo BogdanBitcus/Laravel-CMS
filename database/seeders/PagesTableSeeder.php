@@ -14,8 +14,10 @@ class PagesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('pages')->insert([
-                ['parent' => 0, 'position' => 10, 'show' => '0', 'template' => 1, 'url' => '', 'addr' => '/', 'name' => 'Home page', 'img' => '', 'text' => 'Some content', 'created_at' => now(), 'updated_at' => now()],
-                ['parent' => 1, 'position' => 20, 'show' => '1', 'template' => 2, 'url' => 'about', 'addr' => 'about/', 'name' => 'About us', 'img' => '', 'text' => 'Content about us', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 0, 'position' => 10, 'published' => '0', 'template' => 1, 'slug' => '', 'addr' => '', 'name' => 'Home page', 'content' => 'Some content', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 1, 'position' => 20, 'published' => '1', 'template' => 2, 'slug' => 'about', 'addr' => 'about', 'name' => 'About us', 'content' => 'Content about us', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 1, 'position' => 30, 'published' => '1', 'template' => 3, 'slug' => 'news', 'addr' => 'news', 'name' => 'News', 'content' => '', 'created_at' => now(), 'updated_at' => now()],
+                ['parent' => 1, 'position' => 40, 'published' => '1', 'template' => 5, 'slug' => 'contacts', 'addr' => 'contacts', 'name' => 'Contacts', 'content' => '', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

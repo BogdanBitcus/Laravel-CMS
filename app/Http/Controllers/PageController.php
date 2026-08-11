@@ -35,6 +35,10 @@ class PageController extends Controller
                 return app(NewsListController::class)->index($request, $template, $page);
                 break;
 
+            case '4' : // New
+                return app(NewController::class)->index($request, $template, $page);
+                break;
+
             case '5' : // Contacts controller
                 return app(ContactController::class)->index($request, $template, $page);
                 break;
